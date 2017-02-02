@@ -4,17 +4,31 @@
 #include<vector>
 #include"MyString.h"
 #include"MyVector.h"
+#include"MyComplex.h"
+#include<complex>
+#include<set>
 using namespace std;
 
-class something{
 
-int x=9;
-};
 
 int main(){
+    set<int>s;
+    for(int i=10;i>0;i--){
+        s.insert(i);
+    }
+    for(set<int>::iterator it=s.begin();it!=s.end();it++){
+        cout<<(*it)<<" ";
+    }
+
+   // MyComplex<int>C(2,3);
+   // MyComplex<int>C1(3,4);
+    //cin>>C;
+    //cout<<C;
+
 //vector<const int>v;
 //cout<<something::x;
 
+/**
 MyVector<int>v;
 cout<<v.Size()<<" "<<v.Capacity()<<endl;
 for(int i=0;i<10;i++){
