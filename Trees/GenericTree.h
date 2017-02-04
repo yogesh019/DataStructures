@@ -2,6 +2,7 @@
 #define GENERICTREE_H_INCLUDED
 #include<iostream>
 #include<queue>
+#include<stack>
 using namespace std;
 
 template<typename T>
@@ -140,6 +141,88 @@ public:
             }
         }
     }
+    
+    // constructing tree in a depth first search way
+    void constructTreeRecursive(){
+        T ele;
+        cout<<"Enter root: ";
+        cin>>ele;
+        root=new GenericTreeNode<T>(ele);
+        constructTreeRecursiveHelper(root);
+     return;
+    }
+
+
+    void constructTree(){
+        T ele;                                
+        cout<<"Enter root: ";
+        cin>>ele;
+        root=new GenericTreeNode<T>(ele);
+        stack<GenericTreeNode<T>*>S;
+        S.push(root);
+        while(!S.empty()){
+            GenericTreeNode<T>*temp=S.top();
+            S.pop();
+            cout<<"Enter the child count of "<<temp->data<<": ";
+            cin>>temp->child_count;
+            temp->children=new GenericTreeNode<T>*[temp->child_count];
+            for(int i=0;i<temp->child_count;i++){
+                cout<<"Enter the "<<i+1<<" child of "<<temp->data<<": ";
+                cin>>ele;
+                temp->children[i]=new GenericTreeNode<T>(ele);
+                temp->children[i]->parent=temp;
+                S.push(temp->children[i]);
+            }
+        }
+    }
+   void printPreOrder(){
+       if(!root)
+           return;
+       printPreOrderHelper(root);
+   } 
+   void printPostOrder(){
+       if(!root)
+           return;
+       printPostOrderHelper(root);
+   }
+private:
+    
+   static void printPostOrderHelper(GenericTreeNode<T>*root){
+        for(int i=0;i<root->child_count;i++){
+            printPostOrderHelper(root->children[i]);
+        }
+        cout<<root->data<<" ";
+     return;
+   }
+       
+   static void printPreOrderHelper(GenericTreeNode<T>*root){
+       cout<<root->data<<" ";
+       for(int i=0;i<root->child_count;i++){
+           printPreOrderHelper(root->children[i]);
+       }
+     return;
+   }
+   static void constructTreeRecursiveHelper(GenericTreeNode<T>*root){
+        cout<<"Enter the child count of "<<root->data<<": ";
+        cin>>root->child_count;
+        root->children=new GenericTreeNode<T>*[root->child_count];
+        for(int i=0;i<root->child_count;i++){
+            cout<<"Enter the "<<i+1<<"child of "<<root->data<<": ";
+            T ele;
+            cin>>ele;
+            root->children[i]=new GenericTreeNode<T>(ele);
+            root->children[i]->parent=root;
+           // constructTreeRecursiveHelper(root->children[i]);
+        }
+        for(int i=0;i<root->child_count;i++){
+            constructTreeRecursiveHelper(root->children[i]);
+        }
+       
+
+    }
+
+
+
 };
 
 
