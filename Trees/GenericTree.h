@@ -185,8 +185,22 @@ public:
            return;
        printPostOrderHelper(root);
    }
+
+   int height(){
+       if(!root)return -1;
+       return heightOfNode(root);
+   }
+
 private:
     
+   static int heightOfNode(GenericTreeNode<T>*root){
+       int h=-1;
+       for(int i=0;i<root->child_count;i++){
+           h=h>heightOfNode(root->children[i])?h:heightOfNode(root->children[i]);
+       }
+       return h+1;
+   }
+
    static void printPostOrderHelper(GenericTreeNode<T>*root){
         for(int i=0;i<root->child_count;i++){
             printPostOrderHelper(root->children[i]);

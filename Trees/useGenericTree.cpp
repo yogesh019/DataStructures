@@ -3,10 +3,14 @@ int main(){
     GenericTree<char>G1;
     G1.createTree();
     G1.printTree();
+    cout<<endl;
     cout<<"Pre Order: ";
     G1.printPreOrder();
+    cout<<endl;
     cout<<"Post Order: ";
     G1.printPostOrder();
+    cout<<endl;
+    cout<<"Height Of Tree: "<<G1.height();
     /**
     G1.createTree();
     GenericTree<char>G2;
