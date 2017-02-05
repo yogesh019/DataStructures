@@ -191,8 +191,20 @@ public:
        return heightOfNode(root);
    }
 
+   void printAtDepthK(int K){
+       if(K<0||!root)return;
+       printAtDepthKHelper(root,K);
+      return;
+   }
 private:
     
+   static void printAtDepthKHelper(GenericTreeNode<T>*root,int K){
+       if(!K)cout<<root->data<<" ";
+       for(int i=0;i<root->child_count;i++){
+           printAtDepthKHelper(root->children[i],K-1);
+       }
+   }
+
    static int heightOfNode(GenericTreeNode<T>*root){
        int h=-1;
        for(int i=0;i<root->child_count;i++){

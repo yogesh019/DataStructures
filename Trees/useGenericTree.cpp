@@ -10,7 +10,8 @@ int main(){
     cout<<"Post Order: ";
     G1.printPostOrder();
     cout<<endl;
-    cout<<"Height Of Tree: "<<G1.height();
+    cout<<"Height Of Tree: "<<G1.height()<<endl;
+    G1.printAtDepthK(3);
     /**
     G1.createTree();
     GenericTree<char>G2;
