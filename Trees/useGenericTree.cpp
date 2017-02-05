@@ -12,6 +12,7 @@ int main(){
     cout<<endl;
     cout<<"Height Of Tree: "<<G1.height()<<endl;
     G1.printAtDepthK(3);
+    cout<<"Largest Node: "<<G1.LargestNode()->data<<endl;
     /**
     G1.createTree();
     GenericTree<char>G2;

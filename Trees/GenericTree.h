@@ -10,11 +10,12 @@ class GenericTree;
 
 template<typename T>
 class GenericTreeNode{
+public:
     T data;
     GenericTreeNode**children;
     GenericTreeNode*parent;
     unsigned int child_count;
-public:
+
     GenericTreeNode(const T&ele=0):data(ele),parent(0),child_count(0),children(0){}
     GenericTreeNode(const GenericTreeNode&G){
         data=G.data;
@@ -196,8 +197,20 @@ public:
        printAtDepthKHelper(root,K);
       return;
    }
+   GenericTreeNode<T>*LargestNode(){
+       if(!root)return root;
+       return LargestNodeHelper(root);
+   }
+
 private:
     
+   static GenericTreeNode<T>*LargestNodeHelper(GenericTreeNode<T>*root){
+       GenericTreeNode<T>*large=root;
+       for(int i=0;i<root->child_count;i++){
+           large=large->data>LargestNodeHelper(root->children[i])->data?large:LargestNodeHelper(root->children[i]);
+       }
+       return large;
+   }
    static void printAtDepthKHelper(GenericTreeNode<T>*root,int K){
        if(!K)cout<<root->data<<" ";
        for(int i=0;i<root->child_count;i++){
