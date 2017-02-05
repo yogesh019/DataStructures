@@ -1,6 +1,6 @@
 #include"GenericTree.h"
 int main(){
-    GenericTree<char>G1;
+    GenericTree<int>G1;
     G1.createTree();
     G1.printTree();
     cout<<endl;
@@ -13,6 +13,11 @@ int main(){
     cout<<"Height Of Tree: "<<G1.height()<<endl;
     G1.printAtDepthK(3);
     cout<<"Largest Node: "<<G1.LargestNode()->data<<endl;
+    cout<<"Sum Of All Nodes: "<<G1.SumOfNodes()<<endl;
+    cout<<"Nodes with max sum of itself and it's children is: ";
+    cout<<G1.findMaxSum()->data<<endl;
+    cout<<"Nodes Greater than root: ";
+    cout<<G1.NodesGreaterThanRoot();
     /**
     G1.createTree();
     GenericTree<char>G2;

@@ -201,9 +201,94 @@ public:
        if(!root)return root;
        return LargestNodeHelper(root);
    }
+   int NodesGreaterThanRootRecursive(){
+       if(!root)return 0;
+       return NodesGreaterThanNode(root,root->data);
+   }
+
+   T SumOfNodes(){
+        if(!root)return 0;
+        return SumOfNodesHelper(root);
+    }
+
+    void preOrderUsingStack(){
+        if(!root)return;
+        stack<GenericTreeNode<T>*>S;
+        S.push(root);
+        while(!S.empty()){
+            GenericTreeNode<T>*temp=S.top();
+            S.pop();
+            cout<<temp->data<<" ";
+            for(int i=temp->child_count-1;i>=0;i--){
+                S.push(temp->children[i]);
+            }
+        }
+        return;
+    }
+    GenericTreeNode<T>*findMaxSum(){
+        if(!root)return root;
+        return findMaxSumHelper(root);
+    }
+   
+    int NodesGreaterThanRoot(){
+        queue<GenericTreeNode<T>*>Q;
+        Q.push(root);
+        int count=0;
+        while(!Q.empty()){
+            GenericTreeNode<T>*temp=Q.front();
+            Q.pop();
+            if(temp->data>root->data){
+                count++;
+            }
+            for(int i=0;i<temp->child_count;i++){
+                Q.push(temp->children[i]);
+            }
+        }
+        return count;
+    }
+
+
 
 private:
     
+   static GenericTreeNode<T>*findMaxSumHelper(GenericTreeNode<T>*root){
+       GenericTreeNode<T>*max=root;
+       T max_sum=root->data;
+       for(int i=0;i<root->child_count;i++){
+            max_sum+=root->children[i]->data;
+     }
+       for(int i=0;i<root->child_count;i++){
+           GenericTreeNode<T>*temp=findMaxSumHelper(root->children[i]);
+           T sum=temp->data;
+           for(int i=0;i<temp->child_count;i++){
+               sum+=temp->children[i]->data;
+           }
+           max=max_sum>sum?max:temp;
+           max_sum=max_sum>sum?max_sum:sum;
+       }
+       return max;
+   }
+
+   static T SumOfNodesHelper(GenericTreeNode<T>*root){
+       T sum=root->data;
+       for(int i=0;i<root->child_count;i++){
+           sum+=SumOfNodesHelper(root->children[i]);
+       }
+       return sum;
+   }
+
+   static int NodesGreaterThanNode(GenericTreeNode<T>*root,int K){
+       int count=0;
+       if(root->data>K){
+           count++;
+       }
+       for(int i=0;i<root->child_count;i++){
+           count+=NodesGreaterThanNode(root->children[i],K);
+       }
+       return count;
+   }
+      
+
    static GenericTreeNode<T>*LargestNodeHelper(GenericTreeNode<T>*root){
        GenericTreeNode<T>*large=root;
        for(int i=0;i<root->child_count;i++){
