@@ -53,6 +53,28 @@ class BinaryTree{
         temp->right=DuplicateAs(root->right);
         return temp;
     }
+    static void constructTreeRecursiveHelper(BinaryTreeNode<T>*root){
+        char ch;
+        T ele;
+        cout<<"Is there any left child of "<<root->data<<"(y/n): ";
+        cin>>ch;
+        if(ch=='y'||ch=='Y'){
+            cout<<"Enter the left child of "<<root->data<<": ";
+            cin>>ele;
+            root->left=new BinaryTreeNode<T>(ele);
+        }
+        cout<<"Is there any right child of "<<root->data<<"(y/n): ";
+        cin>>ch;
+        if(ch=='y'||ch=='Y'){
+            cout<<"Enter the right child of "<<root->data<<": ";
+            cin>>ele;
+            root->right=new BinaryTreeNode<T>(ele);
+        }
+        if(root->left)constructTreeRecursiveHelper(root->left);
+        if(root->right)constructTreeRecursiveHelper(root->right);
+    return;
+    }
+
 public:
     BinaryTree():root(0){}
     BinaryTree(const BinaryTree&B):root(0){
@@ -100,6 +122,14 @@ public:
             }
         }
     }
+    void constructTreeRecursive(){
+        T ele;
+        cout<<"Enter root: ";
+        cin>>ele;
+        root=new BinaryTreeNode<T>(ele);
+        constructTreeRecursiveHelper(root);
+        return;
+    }
     void printTree(){
         if(!root){
             cout<<"Empty Tree"<<endl;
@@ -124,6 +154,29 @@ public:
         }
         return;
     }
+    void printAtDepthK(int K){
+        //if(K<0)return;
+        if(K<0||!root)return;
+        printAtDepthKHelper(root,K);
+        return;
+    }
+private:
+    /**Note : we can do the BinaryTree questions by 2 ways ,first by applying a checking before calling a function
+     * and the other way is handling the function ,after the call occurs**/
+
+    static void printAtDepthKHelper(BinaryTreeNode<T>*root,int K){
+        //if(!root)return;
+        if(!K){
+            cout<<root->data<<" ";   
+            return;
+        }
+        if(root->left)
+            printAtDepthKHelper(root->left,K-1);
+        if(root->right)
+            printAtDepthKHelper(root->right,K-1);
+        return;
+    }
+            
 };
 
 #endif

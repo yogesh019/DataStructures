@@ -34,6 +34,7 @@ int main(){
    // something *s=0;
    // s->show();
     //cout<<sizeof(*s)<<endl
+    /*
     BinaryTree<char>B1;
     B1.createTree();
     BinaryTree<char>B2;
@@ -42,6 +43,19 @@ int main(){
     cout<<endl;
     B1.~BinaryTree();
     B1.printTree();
+    */
+    BinaryTree<char>B;
+    B.createTree();
+    B.printTree();
+    cout<<endl;
+    B.printAtDepthK(0);
+        cout<<endl;
+    B.printAtDepthK(1);
+    cout<<endl;
+    B.printAtDepthK(2);
+    cout<<endl;
+    B.printAtDepthK(3);
+    cout<<endl;
     return 0;
 }
 
