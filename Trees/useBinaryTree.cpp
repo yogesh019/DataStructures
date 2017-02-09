@@ -1,4 +1,5 @@
 #include<iostream>
+#include"BinaryTree.h"
 using namespace std;
 
 class something{
@@ -27,12 +28,20 @@ public:
 int something::x=89;
 
 int main(){
-    cout<<sizeof(something)<<endl;
+    //cout<<sizeof(something)<<endl;
     //something s;
     //s.print();
-    something *s=0;
-    s->show();
-    cout<<sizeof(*s)<<endl;
+   // something *s=0;
+   // s->show();
+    //cout<<sizeof(*s)<<endl
+    BinaryTree<char>B1;
+    B1.createTree();
+    BinaryTree<char>B2;
+    B2=B1;
+    B2.printTree();
+    cout<<endl;
+    B1.~BinaryTree();
+    B1.printTree();
     return 0;
 }
 
