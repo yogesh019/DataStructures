@@ -46,16 +46,27 @@ int main(){
     */
     BinaryTree<char>B;
     B.createTree();
+    //B.constructTreeUsingStack();
     B.printTree();
     cout<<endl;
-    B.printAtDepthK(0);
+    cout<<"Height of tree: "<<B.height()<<endl;
+    //cout<<B.findElement('F')->data<<endl;
+    //cout<<B.findElement('B')->data<<endl;
+    //cout<<B.findElement('G')->data<<endl;
+    //cout<<B.findElement('A')->data<<endl;
+    //cout<<B.findElement('D')->data<<endl;
+    //cout<<B.findElement('C')->data<<endl;
+    //cout<<B.findElement('E')->data<<endl;
+    //cout<<B.findElement('H')->data<<endl;
+    //cout<<B.findElement('I')->data<<endl;
+    //B.printAtDepthK(0);
         cout<<endl;
-    B.printAtDepthK(1);
-    cout<<endl;
-    B.printAtDepthK(2);
-    cout<<endl;
-    B.printAtDepthK(3);
-    cout<<endl;
+    //B.printAtDepthK(1);
+    //cout<<endl;
+    //B.printAtDepthK(2);
+    //cout<<endl;
+    //B.printAtDepthK(3);
+    //cout<<endl;
     return 0;
 }
 

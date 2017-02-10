@@ -2,6 +2,7 @@
 #define BINARYTREE_H_INCLUDED
 #include<iostream>
 #include<queue>
+#include<stack>
 using namespace std;
 
 template<typename T>
@@ -9,9 +10,10 @@ class BinaryTree;
 
 template<typename T>
 class BinaryTreeNode{
+public:
     T data;
     BinaryTreeNode*left,*right;
-public:
+
     BinaryTreeNode(const T&ele=0):data(ele),left(0),right(0){}
     BinaryTreeNode(const BinaryTreeNode&B):left(0),right(0){
         data=B.data;
@@ -53,6 +55,10 @@ class BinaryTree{
         temp->right=DuplicateAs(root->right);
         return temp;
     }
+    
+    /* Recursive function to construct a Tree ,it is basically like a stack rather than asking for all nodes at a level
+     * it goes deep inside the branch and  construct that branch first
+     */
     static void constructTreeRecursiveHelper(BinaryTreeNode<T>*root){
         char ch;
         T ele;
@@ -78,11 +84,11 @@ class BinaryTree{
 public:
     BinaryTree():root(0){}
     BinaryTree(const BinaryTree&B):root(0){
-        //root=DuplicateAs(B.root);
+        //root=DuplicateAs(B.root);         //copy constructor
         root=new BinaryTreeNode<T>(*B.root);
     }
     BinaryTree&operator=(const BinaryTree&B){
-        //Clear(root);
+        //Clear(root);                      //assignment operator overloaded
         //root=DuplicateAs(B.root);
         if(root)delete root;
         root=new BinaryTreeNode<T>(*B.root);
@@ -95,7 +101,7 @@ public:
     }
     void createTree(){
         T ele;
-        char ch;
+        char ch;                // create Tree using Breadth First Search Way
         queue<BinaryTreeNode<T>*>Q;
         cout<<"Enter root: ";
         cin>>ele;
@@ -123,14 +129,14 @@ public:
         }
     }
     void constructTreeRecursive(){
-        T ele;
+        T ele;                          //construct Tree Using DFS way
         cout<<"Enter root: ";
         cin>>ele;
         root=new BinaryTreeNode<T>(ele);
         constructTreeRecursiveHelper(root);
         return;
     }
-    void printTree(){
+    void printTree(){               //print tree using BFS 
         if(!root){
             cout<<"Empty Tree"<<endl;
             return;
@@ -154,14 +160,70 @@ public:
         }
         return;
     }
-    void printAtDepthK(int K){
+    void printAtDepthK(int K){                      
         //if(K<0)return;
         if(K<0||!root)return;
         printAtDepthKHelper(root,K);
         return;
     }
+    
+   void constructTreeUsingStack(){
+       stack<BinaryTreeNode<T>*>S;          //construct Tree Using DFS way
+       T ele;char ch;
+       cout<<"Enter root: ";
+       cin>>ele;
+       root=new BinaryTreeNode<T>(ele);
+       S.push(root);
+       while(!S.empty()){
+           BinaryTreeNode<T>*temp=S.top();
+           S.pop();
+           cout<<"Is there any left child of "<<temp->data<<"(y/n): ";
+           cin>>ch;
+           if(ch=='y'||ch=='Y'){
+               cout<<"Enter the left child of "<<temp->data<<": ";
+               cin>>ele;
+               temp->left=new BinaryTreeNode<T>(ele);
+               S.push(temp->left);
+           }
+           cout<<"Is there any right child of "<<temp->data<<"(y/n): ";
+           cin>>ch;
+           if(ch=='y'||ch=='Y'){
+               cout<<"Enter the right child of "<<temp->data<<": ";
+               cin>>ele;
+               temp->right=new BinaryTreeNode<T>(ele);
+               S.push(temp->right);
+           }
+       }
+       return;
+   }
+   
+   BinaryTreeNode<T>*findElement(const T&ele){
+       if(!root)return root;
+       return findElementHelper(root,ele);
+   }
+   int height(){
+       return heightOfNode(root);
+   }
 private:
-    /**Note : we can do the BinaryTree questions by 2 ways ,first by applying a checking before calling a function
+   static int heightOfNode(BinaryTreeNode<T>*root){
+       if(!root)return -1;
+       return max(heightOfNode(root->left),heightOfNode(root->right))+1;
+   }
+   static BinaryTreeNode<T>*findElementHelper(BinaryTreeNode<T>*root,const T&ele){
+       if(root->data==ele)
+           return root;
+       if(root->left&&findElementHelper(root->left,ele))
+           return findElementHelper(root->left,ele);
+       if(root->right&&findElementHelper(root->right,ele))
+           return findElementHelper(root->right,ele);
+       return NULL;
+       /*
+       if(!root||root->data==ele)return root;
+       return findElementHelper(root->left,ele)?findElementHelper(root->left,ele):findElementHelper(root->right,ele);
+       */
+   }
+    
+   /**Note : we can do the BinaryTree questions by 2 ways ,first by applying a checking before calling a function
      * and the other way is handling the function ,after the call occurs**/
 
     static void printAtDepthKHelper(BinaryTreeNode<T>*root,int K){
