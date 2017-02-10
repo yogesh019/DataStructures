@@ -51,6 +51,12 @@ int main(){
     cout<<endl;
     cout<<"Height of tree: "<<B.height()<<endl;
     cout<<"Largest Element: "<<B.findLargestElement()->data<<endl;
+    cout<<"In Order: ";
+    B.InOrder();
+    cout<<"Pre Order: ";
+    B.PreOrder();
+    cout<<"Post Order: ";
+    B.PostOrder();
     //cout<<B.findElement('F')->data<<endl;
     //cout<<B.findElement('B')->data<<endl;
     //cout<<B.findElement('G')->data<<endl;

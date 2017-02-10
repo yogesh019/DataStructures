@@ -209,9 +209,41 @@ public:
        if(!root)return root;
        return findLargestElementHelper(root);
    } 
-
+   void PreOrder(){
+       PreOrderHelper(root);
+       return;
+   }
+   void InOrder(){
+       InOrderHelper(root);
+       return;
+   }
+   void PostOrder(){
+       PostOrderHelper(root);
+       return;
+   }
 private:
-   
+
+   static void PostOrderHelper(BinaryTreeNode<T>*root){
+       if(!root)return;
+       PostOrderHelper(root->left);
+       PostOrderHelper(root->right);
+       cout<<root->data<<" ";
+       return;
+   }
+   static void InOrderHelper(BinaryTreeNode<T>*root){
+       if(!root)return;
+       InOrderHelper(root->left);
+       cout<<root->data<<" ";
+       InOrderHelper(root->right);
+       return;
+   }
+   static void PreOrderHelper(BinaryTreeNode<T>*root){
+       if(!root)return;
+       cout<<root->data<<" ";
+       PreOrderHelper(root->left);
+       PreOrderHelper(root->right);
+       return;
+   }
    static BinaryTreeNode<T>*findLargestElementHelper(BinaryTreeNode<T>*root){
        //here we make a check before going to recursion
        BinaryTreeNode<T>*large=root;
