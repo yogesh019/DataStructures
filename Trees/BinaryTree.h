@@ -204,11 +204,46 @@ public:
    int height(){
        return heightOfNode(root);
    }
+   
+   BinaryTreeNode<T>*findLargestElement(){
+       if(!root)return root;
+       return findLargestElementHelper(root);
+   } 
+
 private:
+   
+   static BinaryTreeNode<T>*findLargestElementHelper(BinaryTreeNode<T>*root){
+       //here we make a check before going to recursion
+       BinaryTreeNode<T>*large=root;
+       if(root->left){
+           BinaryTreeNode<T>*leftLargest=findLargestElementHelper(root->left);
+           if(leftLargest->data>large->data)
+               large=leftLargest;
+       }
+       if(root->right){
+           large=findLargestElementHelper(root->right)->data>large->data?findLargestElementHelper(root->right):large;
+       }
+       return large;
+       /**
+       if(!root)return root;
+       BinaryTreeNode<T>*large=root;
+       BinaryTreeNode<T>*leftLargest=findLargestElementHelper(root->left);
+       if(leftLargest&&leftLargest->data>large->data){  //here we first make a recursion call and then apply a check after return
+           large=leftLargest;
+       }
+       BinaryTreeNode<T>*rightLargest=findLargestElementHelper(root->right);
+       if(rightLargest&&rightLargest->data>large->data){
+           large=rightLargest;
+       }
+       return large;
+       **/
+   }
+   
    static int heightOfNode(BinaryTreeNode<T>*root){
        if(!root)return -1;
        return max(heightOfNode(root->left),heightOfNode(root->right))+1;
    }
+   
    static BinaryTreeNode<T>*findElementHelper(BinaryTreeNode<T>*root,const T&ele){
        if(root->data==ele)
            return root;

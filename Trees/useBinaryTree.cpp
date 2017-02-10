@@ -50,6 +50,7 @@ int main(){
     B.printTree();
     cout<<endl;
     cout<<"Height of tree: "<<B.height()<<endl;
+    cout<<"Largest Element: "<<B.findLargestElement()->data<<endl;
     //cout<<B.findElement('F')->data<<endl;
     //cout<<B.findElement('B')->data<<endl;
     //cout<<B.findElement('G')->data<<endl;
