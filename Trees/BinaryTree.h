@@ -221,8 +221,98 @@ public:
        PostOrderHelper(root);
        return;
    }
+   void printPreOrderUsingStack(){
+       if(!root)return;
+       stack<BinaryTreeNode<T>*>S;
+       S.push(root);
+       while(!S.empty()){
+           BinaryTreeNode<T>*temp=S.top();
+           S.pop();
+           cout<<temp->data<<" ";
+           if(temp->right)S.push(temp->right);
+           if(temp->left)S.push(temp->left);
+       }
+       return;
+   }
+   T findSumAll(){
+       return findSumAllHelper(root);
+   }
+   
+   void InOrderUsingStack(){
+       stack<BinaryTreeNode<T>*>S;// Time complexity is O(n) in Binary Tree when traversals(PreOrder,InOrder,PostOrder) are used
+       BinaryTreeNode<T>*curr=root;
+       while(!(S.empty()&&!curr)){
+           while(curr){
+               S.push(curr);
+               curr=curr->left;
+           }
+           curr=S.top();
+           S.pop();
+           cout<<curr->data<<" ";
+           curr=curr->right;
+       }
+       return;
+   }
+  
+   void ReplaceNodesWithDepthValue(){
+       ReplaceNodesWithDepthValueHelper(root,0);
+   return;
+   }
+
+   int CountLeafNodes(){
+       return CountLeafNodesHelper(root);
+   }
+   
+   int CountNodes(){
+       return CountNodesHelper(root);
+   }
+   
+   void PostOrderUsingStack(){
+       stack<BinaryTreeNode<T>*>S;
+       BinaryTreeNode<T>*temp=root;
+       do{
+           while(temp){
+               if(temp->right)
+                   S.push(temp->right);
+               S.push(temp);
+               temp=temp->left;
+           }
+           temp=S.top();
+           S.pop();
+           if(temp->right&&!S.empty()&&S.top()==temp->right){
+               S.pop();
+               S.push(temp);
+               temp=temp->right;
+           }else{
+               cout<<temp->data<<" ";
+               temp=0;
+           }
+       }while(!S.empty());
+       return;
+   }
+
 private:
 
+   static int CountNodesHelper(BinaryTreeNode<T>*root){
+       if(!root)return 0;
+       return 1+CountNodesHelper(root->left)+CountNodesHelper(root->right);
+   }
+   static int CountLeafNodesHelper(BinaryTreeNode<T>*root){
+       if(!root)return 0;
+       if(!root->left&&!root->right)return 1;
+       return CountLeafNodesHelper(root->left)+CountLeafNodesHelper(root->right);
+   }
+   static void ReplaceNodesWithDepthValueHelper(BinaryTreeNode<T>*root,int depth){
+      if(!root)return;
+      root->data=depth;
+      ReplaceNodesWithDepthValueHelper(root->left,depth+1);
+      ReplaceNodesWithDepthValueHelper(root->right,depth+1);
+      return;
+   }   
+   static T findSumAllHelper(BinaryTreeNode<T>*root){
+       if(!root)return 0;
+       return root->data+findSumAllHelper(root->left)+findSumAllHelper(root->right);
+   }
    static void PostOrderHelper(BinaryTreeNode<T>*root){
        if(!root)return;
        PostOrderHelper(root->left);
