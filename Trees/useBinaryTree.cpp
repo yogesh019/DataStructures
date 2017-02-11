@@ -71,6 +71,8 @@ int main(){
     cout<<endl;
     cout<<"No of leaf Nodes: "<<B.CountLeafNodes()<<endl;
     cout<<"Total no. of Nodes: "<<B.CountNodes()<<endl;
+    //cout<<"Diameter Of Tree: "<<B.diameter1()<<endl; 
+    cout<<"Diameter Of Tree: "<<B.diameter2()<<endl;
     //B.ReplaceNodesWithDepthValue();
     //B.printTree();
     //cout<<"Sum of all nodes is: "<<B.findSumAll()<<endl;
