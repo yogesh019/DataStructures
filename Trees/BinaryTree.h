@@ -297,8 +297,60 @@ public:
    int diameter2(){
        return diameterOfNode2(root).first;
    }
+   
+   void printNodesWithNoSiblings(){
+      printNodesWithNoSiblingsHelper(root);
+     return;
+   }
+   /**        LCA: LEAST COMMON ANCESTOR
+    Let T be a rooted tree. The lowest common ancestor between two nodes n1 and n2 is defined as the lowest node in T that has 
+    both n1 and n2 as descendants (where we allow a node to be a descendant of itself).
+
+    The LCA of n1 and n2 in T is the shared ancestor of n1 and n2 that is located farthest from the root. Computation of 
+    lowest common ancestors may be useful, for instance, as part of a procedure for determining the distance between pairs of 
+    nodes in a tree: the distance from n1 to n2 can be computed as the distance from the root to n1, plus the distance 
+    from the root to n2, minus twice the distance from the root to their lowest common ancestor.  **/ 
+    
+    BinaryTreeNode<T>*findLCAUsingStack(const T&ele1,const T&ele2){
+      stack<BinaryTreeNode<T>*>S1,S2;
+      getAncestorsInStack(root,S1,ele1); // Time complexity is O(n), requires 2 tree traversals and then the arrays are compared
+      getAncestorsInStack(root,S2,ele2);
+      BinaryTreeNode<T>*LCA=0;
+      while(!S1.empty()&&!S2.empty()&&S1.top()==S2.top()){
+          LCA=S1.top();
+          S1.pop();
+          S2.pop();
+      }
+      return LCA;
+    } 
+
 
 private:
+   
+    static bool getAncestorsInStack(BinaryTreeNode<T>*root,stack<BinaryTreeNode<T>*>&S,const T&ele){
+        //if(!root)return false;
+        if(root->data==ele){
+            S.push(root);
+            return true;
+        }
+        // Note: if we remove root->left&&..  int the below statement then if we have to write the above statement if(!root)return false
+        if(root->left&&getAncestorsInStack(root->left,S,ele)||root->right&&getAncestorsInStack(root->right,S,ele)){
+            S.push(root);// an element is ancestor of itself ; though we can remove this
+            return true;
+        }
+        return false;
+    }
+
+    static void printNodesWithNoSiblingsHelper(BinaryTreeNode<T>*root){
+       if(!root)return;
+       if(root->left&&!root->right)
+           cout<<root->left->data<<" ";
+       if(!root->left&&root->right)
+           cout<<root->right->data<<" ";
+       printNodesWithNoSiblingsHelper(root->left);
+       printNodesWithNoSiblingsHelper(root->right);
+       return;
+   }
    //DIAMETER OF A NODE: TIME COMPLEXITY IS O(n^2)
    /* Diameter of a tree is the number of nodes on the longest path between 2 leaf nodes , 
     * here the boundary 2 leaf nodes are excluded in the calculation , the problem with this algorithm is that it's time complexity

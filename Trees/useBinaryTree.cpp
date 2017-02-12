@@ -73,6 +73,14 @@ int main(){
     cout<<"Total no. of Nodes: "<<B.CountNodes()<<endl;
     //cout<<"Diameter Of Tree: "<<B.diameter1()<<endl; 
     cout<<"Diameter Of Tree: "<<B.diameter2()<<endl;
+    cout<<"Elements with no siblings: ";
+    B.printNodesWithNoSiblings();
+    cout<<endl;
+    cout<<endl;
+    cout<<B.findLCAUsingStack('4','5')->data<<endl;
+    cout<<B.findLCAUsingStack('4','6')->data<<endl;
+    cout<<B.findLCAUsingStack('3','4')->data<<endl;
+    cout<<B.findLCAUsingStack('2','4')->data<<endl;
     //B.ReplaceNodesWithDepthValue();
     //B.printTree();
     //cout<<"Sum of all nodes is: "<<B.findSumAll()<<endl;
