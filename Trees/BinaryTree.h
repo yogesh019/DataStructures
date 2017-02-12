@@ -338,8 +338,15 @@ public:
         return;
     }
     
+    void buildTreeFromInOrderPostOrder(T*in,T*post,int len){
+        root=buildTreeFromInOrderPostOrderHelper(in,post,0,len-1);
+        return;
+    }
+    
 private:
   
+    //Note:we can construct a tree only if one of the traversal is inorder, otherwise if pre-order and post-order are given ,there
+    //are multiple trees possible
     static int SearchIndex(T*in,int Start,int End,const T&value){
        int i=0;
       while(in[i]!=value){
@@ -347,6 +354,8 @@ private:
       }
      return i;
     } 
+    //Time complexity is O(n^2), worst case occurs when tree is left skewed
+    //ex : pre[]={A,B,C,D},in[]={D,C,B,A}
     static BinaryTreeNode<T>*buildTreeFromInOrderPreOrderHelper(T*in,T*pre,int Start,int End){
         if(Start>End)return NULL;
         static int  preIndex=0;
@@ -355,6 +364,16 @@ private:
         int index=SearchIndex(in,Start,End,temp->data);
         temp->left=buildTreeFromInOrderPreOrderHelper(in,pre,Start,index-1);
         temp->right=buildTreeFromInOrderPreOrderHelper(in,pre,index+1,End);
+        return temp;
+    }
+
+    static BinaryTreeNode<T>*buildTreeFromInOrderPostOrderHelper(T*in,T*post,int Start,int End){
+        if(Start>End)return NULL;
+        static int postIndex=End;
+        BinaryTreeNode<T>*temp=new BinaryTreeNode<T>(post[postIndex--]);
+        int index=SearchIndex(in,Start,End,temp->data);
+        temp->right=buildTreeFromInOrderPostOrderHelper(in,post,index+1,End);
+        temp->left=buildTreeFromInOrderPostOrderHelper(in,post,Start,index-1);
         return temp;
     }
     static bool CheckLeavesAtSameLevelHelper(BinaryTreeNode<T>*root,const int&level, int&K){
