@@ -45,8 +45,11 @@ int main(){
     B1.printTree();
     */
     BinaryTree<char>B;
-    B.createTree();
+    //B.createTree();
     //B.constructTreeUsingStack();
+    char in[]={'D','B','E','A','F','C'};
+    char pre[]={'A','B','D','E','C','F'};
+    B.buildTreeFromInOrderPreOrder(in,pre,6);
     B.printTree();
     cout<<endl;
     cout<<"Height of tree: "<<B.height()<<endl;

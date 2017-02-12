@@ -333,9 +333,30 @@ public:
         return CheckLeavesAtSameLevelHelper(root,level,K);
     }
 
-
+    void buildTreeFromInOrderPreOrder(T*in,T*pre,int len){
+        root=buildTreeFromInOrderPreOrderHelper(in,pre,0,len-1);
+        return;
+    }
+    
 private:
-   
+  
+    static int SearchIndex(T*in,int Start,int End,const T&value){
+       int i=0;
+      while(in[i]!=value){
+         i++;
+      }
+     return i;
+    } 
+    static BinaryTreeNode<T>*buildTreeFromInOrderPreOrderHelper(T*in,T*pre,int Start,int End){
+        if(Start>End)return NULL;
+        static int  preIndex=0;
+        BinaryTreeNode<T>*temp=new BinaryTreeNode<T>(pre[preIndex++]);
+        //if(Start==End)return temp;
+        int index=SearchIndex(in,Start,End,temp->data);
+        temp->left=buildTreeFromInOrderPreOrderHelper(in,pre,Start,index-1);
+        temp->right=buildTreeFromInOrderPreOrderHelper(in,pre,index+1,End);
+        return temp;
+    }
     static bool CheckLeavesAtSameLevelHelper(BinaryTreeNode<T>*root,const int&level, int&K){
         if(!root)return true;
         if(!root->left&&!root->right){
