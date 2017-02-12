@@ -322,11 +322,46 @@ public:
           S2.pop();
       }
       return LCA;
-    } 
+    }
+
+    BinaryTreeNode<T>*NextGreater(const T&ele){
+       return findNextGreater(root,ele);
+    }
+   
+    bool CheckLeavesAtSameLevel(){
+        int level=1,K=1;
+        return CheckLeavesAtSameLevelHelper(root,level,K);
+    }
 
 
 private:
    
+    static bool CheckLeavesAtSameLevelHelper(BinaryTreeNode<T>*root,const int&level, int&K){
+        if(!root)return true;
+        if(!root->left&&!root->right){
+            if(K==1){
+                K=level;
+                return true;
+            }
+            return level==K;
+        }
+        return CheckLeavesAtSameLevelHelper(root->left,level+1,K)&&CheckLeavesAtSameLevelHelper(root->right,level+1,K);
+    }
+
+    static bool isThereAnyElement(BinaryTreeNode<T>*root,const T&value,const T&ele){
+       if(!root)return false;
+      if(root->data>ele&&root->data<value)return true;
+     return isThereAnyElement(root->left,value,ele)||isThereAnyElement(root->right,value,ele);
+    } 
+    static BinaryTreeNode<T>*findNextGreater(BinaryTreeNode<T>*root,const T&ele){
+        if(!root)return root;
+        if(root->data>ele&&!isThereAnyElement(root->left,root->data,ele)&&!isThereAnyElement(root->right,root->data,ele)){
+            return root;
+        }
+        return findNextGreater(root->left,ele)?findNextGreater(root->left,ele):findNextGreater(root->right,ele);
+    }
+
+
     static bool getAncestorsInStack(BinaryTreeNode<T>*root,stack<BinaryTreeNode<T>*>&S,const T&ele){
         //if(!root)return false;
         if(root->data==ele){

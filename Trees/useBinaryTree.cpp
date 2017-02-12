@@ -77,10 +77,20 @@ int main(){
     B.printNodesWithNoSiblings();
     cout<<endl;
     cout<<endl;
+    if(B.CheckLeavesAtSameLevel()){
+        cout<<"Leaves are at the same level";
+    }else{
+        cout<<"Leaves are not at the same level";
+    }
+    // cout<<B.NextGreater('F')->data<<endl;
+    //cout<<B.NextGreater('B')->data<<endl;
+    //cout<<B.NextGreater('G')->data<<endl;
+    /**
     cout<<B.findLCAUsingStack('4','5')->data<<endl;
     cout<<B.findLCAUsingStack('4','6')->data<<endl;
     cout<<B.findLCAUsingStack('3','4')->data<<endl;
     cout<<B.findLCAUsingStack('2','4')->data<<endl;
+    **/
     //B.ReplaceNodesWithDepthValue();
     //B.printTree();
     //cout<<"Sum of all nodes is: "<<B.findSumAll()<<endl;
