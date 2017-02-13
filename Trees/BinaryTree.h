@@ -3,6 +3,8 @@
 #include<iostream>
 #include<queue>
 #include<stack>
+#include<cmath>
+#include<limits>
 using namespace std;
 
 template<typename T>
@@ -433,9 +435,54 @@ public:
        connectNodesHelper(root);
        return;
    }
+
+   bool checkIfBST(){
+       T min_value=numeric_limits<T>::min();
+       T max_value=numeric_limits<T>::max();
+       return isBSTHelper(root,min_value,max_value);
+   }
+
+   bool isBalanced(){
+       return isBalancedHelper(root).first;
+   }
+
+   int largestBST(){
+       return largestBSTHelper(root).second;
+   }
+
+
            
 private:
-  
+   
+   static pair<bool,int>largestBSTHelper(BinaryTreeNode<T>*root){
+       if(isBST(root))return pair<bool,int>(true,CountNodesHelper(root));
+        pair<bool,int>Left=largestBSTHelper(root->left);
+        pair<bool,int>Right=largestBSTHelper(root->right);
+
+        return Left.first||Right.first?pair<bool,int>(true,max(Left.second,Right.second)):pair<bool,int>(false,0);
+   }
+
+
+   static bool isBST(BinaryTreeNode<T>*root){
+       T min_value=numeric_limits<T>::min();
+       T max_value=numeric_limits<T>::max();
+       return isBSTHelper(root,min_value,max_value);
+   }
+   static pair<bool,int> isBalancedHelper(BinaryTreeNode<T>*root){
+       if(!root)return pair<bool,int>(true,-1);
+       pair<bool,int>Left=isBalancedHelper(root->left);
+       pair<bool,int>Right=isBalancedHelper(root->right);
+       if(Left.first&&Right.first&&abs(Left.second-Right.second)<=1)return pair<bool,int>(true,1+max(Left.second,Right.second));
+       return pair<bool,int>(false,1+max(Left.second,Right.second));
+   }
+
+   static bool isBSTHelper(BinaryTreeNode<T>*root,T min_value,T max_value){
+       if(!root)return true;
+       if(root->data<min_value||root->data>max_value)return false;
+       return isBSTHelper(root->left,min_value,root->data)&&isBSTHelper(root->right,root->data,max_value);
+   }
+
+
   /**This approach works only for Complete Binary Trees. In this method we set nextRight in Pre Order fashion to make sure that 
    * the nextRight of parent is set before its children. When we are at node p, we set the nextRight of its left and right children. 
    * Since the tree is complete tree, nextRight of p’s left child (p->left->nextRight) will always be p’s right child, and nextRight 

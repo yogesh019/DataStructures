@@ -133,9 +133,20 @@ int main(){
     //cout<<B.root->next->data<<endl;
     //cout<<B.root->next->next->data<<endl;
     //B.connectNodesAtSameLevel();
-    B.connectNodes();
-    cout<<B.root->left->nextRight->data<<endl;
-    cout<<B.root->left->right->left->nextRight->data<<endl;
+    //B.connectNodes();
+    //cout<<B.root->left->nextRight->data<<endl;
+    //cout<<B.root->left->right->left->nextRight->data<<endl;
+    //if(B.checkIfBST())
+      //  cout<<"Tree is BST"<<endl;
+    //else
+      //  cout<<"Tree is not BST"<<endl;
+    if(B.isBalanced()){
+        cout<<"Tree is Balanced"<<endl;
+    }
+    else{
+        cout<<"Tree not balanced"<<endl;
+    }
+    cout<<"Largest BST: "<<B.largestBST()<<endl;
     return 0;
 }
 
