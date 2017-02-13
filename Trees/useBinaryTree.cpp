@@ -129,10 +129,13 @@ int main(){
     //B.printAtDepthK(3);
     //cout<<endl;
     cout<<endl;
-    B.PopulateNextPointers();
-    cout<<B.root->next->data<<endl;
-    cout<<B.root->next->next->data<<endl;
-
+    //B.PopulateNextPointers();
+    //cout<<B.root->next->data<<endl;
+    //cout<<B.root->next->next->data<<endl;
+    //B.connectNodesAtSameLevel();
+    B.connectNodes();
+    cout<<B.root->left->nextRight->data<<endl;
+    cout<<B.root->left->right->left->nextRight->data<<endl;
     return 0;
 }
 
