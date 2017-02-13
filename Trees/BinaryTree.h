@@ -12,10 +12,10 @@ template<typename T>
 class BinaryTreeNode{
 public:
     T data;
-    BinaryTreeNode*left,*right;
+    BinaryTreeNode*left,*right,*nextRight,*next;
 
-    BinaryTreeNode(const T&ele=0):data(ele),left(0),right(0){}
-    BinaryTreeNode(const BinaryTreeNode&B):left(0),right(0){
+    BinaryTreeNode(const T&ele=0):data(ele),left(0),right(0),nextRight(0),next(0){}
+    BinaryTreeNode(const BinaryTreeNode&B):left(0),right(0),nextRight(0),next(0){
         data=B.data;
         if(B.left)
             left=new BinaryTreeNode<T>(*B.left);
@@ -41,6 +41,7 @@ public:
 };
 template<typename T>
 class BinaryTree{
+    public:
     BinaryTreeNode<T>*root;
     static void Clear(BinaryTreeNode<T>*root){
         if(!root)return;
@@ -80,6 +81,14 @@ class BinaryTree{
         if(root->right)constructTreeRecursiveHelper(root->right);
     return;
     }
+   
+    static bool check(BinaryTreeNode<T>*root,BinaryTreeNode<T>*temp){
+        if(!root&&!temp)return true;
+        if(root&&!temp||!root&&temp)return false;
+        if(root->data!=temp->data)return false;
+        return check(root->left,temp->left)&&check(root->right,temp->right);
+    }
+
 
 public:
     BinaryTree():root(0){}
@@ -98,6 +107,9 @@ public:
         //Clear(root);
         delete root;
         root=0;
+    }
+    bool operator==(const BinaryTree&B){
+        return check(root,B.root);
     }
     void createTree(){
         T ele;
@@ -342,9 +354,80 @@ public:
         root=buildTreeFromInOrderPostOrderHelper(in,post,0,len-1);
         return;
     }
+    void mirror(){
+        root=createMirrorTree(root);
+        return;
+    }
+    void zigzagPrint(){
+        queue<BinaryTreeNode<T>*>Q;       //time complexity is O(n)and space complexity is O(n)
+        stack<BinaryTreeNode<T>*>S;
+        Q.push(root);Q.push(NULL);
+        int level=1;
+        while(!Q.empty()){
+            BinaryTreeNode<T>*temp=Q.front();
+            Q.pop();
+            if(!temp){
+                cout<<endl;
+                while(!S.empty()){
+                    cout<<S.top()->data<<" ";
+                    S.pop();
+                }
+                if(!Q.empty()){
+                    level++;
+                    Q.push(NULL);
+                }
+                continue;
+            }
+            if(temp->left)Q.push(temp->left);
+            if(temp->right)Q.push(temp->right);
+            if(level&1){
+                cout<<temp->data<<" ";
+                if(temp->left)S.push(temp->left);
+                if(temp->right)S.push(temp->right);
+            }
+        }
+        return;
+    }
+
+    void PopulateNextPointers(){
+        PopulateNextPointersHelper(root);
+        return;
+    }
+
     
 private:
-  
+ 
+    static void PopulateNextPointersHelper(BinaryTreeNode<T>*root){
+        if(!root)return;
+        
+        /**
+        static BinaryTreeNode<T>*prev=0;
+        PopulateNextPointersHelper(root->left);
+        if(!prev)
+            prev=root;
+        else{
+            prev->next=root;
+            prev=prev->next;
+        }
+        PopulateNextPointersHelper(root->right);
+        **/
+        static BinaryTreeNode<T>*NEXT=0;
+        PopulateNextPointersHelper(root->right);
+        root->next=NEXT;
+        NEXT=root;
+        PopulateNextPointersHelper(root->left);
+
+        return;
+    }
+
+
+    static BinaryTreeNode<T>*createMirrorTree(BinaryTreeNode<T>*root){
+        if(!root)return root;
+        BinaryTreeNode<T>*temp=new BinaryTreeNode<T>(root->data);
+        temp->left=createMirrorTree(root->right);
+        temp->right=createMirrorTree(root->left);
+        return temp;
+    }
     //Note:we can construct a tree only if one of the traversal is inorder, otherwise if pre-order and post-order are given ,there
     //are multiple trees possible
     static int SearchIndex(T*in,int Start,int End,const T&value){

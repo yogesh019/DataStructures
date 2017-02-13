@@ -44,15 +44,24 @@ int main(){
     B1.~BinaryTree();
     B1.printTree();
     */
-    BinaryTree<char>B;
-    //B.createTree();
+    BinaryTree<char>B,B1;
+    B.createTree();
+    /**
+    B1.createTree();
+    if(B==B1){
+        cout<<"Trees are structurally same"<<endl;
+    }else{
+        cout<<"Trees are not same"<<endl;
+    }
+    **/
     //B.constructTreeUsingStack();
     //char in[]={'D','B','E','A','F','C'};
     char pre[]={'A','B','D','E','C','F'};
     char in[]={'4','8','2','5','1','6','3','7'};
     char post[]={'8','4','5','2','6','7','3','1'};
     //B.buildTreeFromInOrderPreOrder(in,pre,6);
-    B.buildTreeFromInOrderPostOrder(in,post,8);
+    //B.buildTreeFromInOrderPostOrder(in,post,8);
+    //B.mirror();
     B.printTree();
     cout<<endl;
     cout<<"Height of tree: "<<B.height()<<endl;
@@ -88,6 +97,8 @@ int main(){
     }else{
         cout<<"Leaves are not at the same level";
     }
+    cout<<"zigzag: "<<endl;
+    B.zigzagPrint();
     // cout<<B.NextGreater('F')->data<<endl;
     //cout<<B.NextGreater('B')->data<<endl;
     //cout<<B.NextGreater('G')->data<<endl;
@@ -117,6 +128,11 @@ int main(){
     //cout<<endl;
     //B.printAtDepthK(3);
     //cout<<endl;
+    cout<<endl;
+    B.PopulateNextPointers();
+    cout<<B.root->next->data<<endl;
+    cout<<B.root->next->next->data<<endl;
+
     return 0;
 }
 
