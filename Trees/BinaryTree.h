@@ -41,9 +41,20 @@ public:
     }
     friend class BinaryTree<T>;
 };
+
+template<typename T>
+void printList(BinaryTreeNode<T>*head){
+    while(head){
+        cout<<head->data<<"-->";
+        head=head->right;
+    }
+    cout<<"NULL"<<endl;
+    return;
+}
+
 template<typename T>
 class BinaryTree{
-    public:
+    
     BinaryTreeNode<T>*root;
     static void Clear(BinaryTreeNode<T>*root){
         if(!root)return;
@@ -90,6 +101,29 @@ class BinaryTree{
         if(root->data!=temp->data)return false;
         return check(root->left,temp->left)&&check(root->right,temp->right);
     }
+    
+    
+    static BinaryTreeNode<T>*BTtoLLHelper(BinaryTreeNode<T>*root){
+        if(!root)return root;
+        if(root->left){
+            BinaryTreeNode<T>*Left=BTtoLLHelper(root->left);
+            while(Left&&Left->right){
+                Left=Left->right;
+            }
+            Left->right=root;
+            root->left=Left;
+        }
+        if(root->right){
+            BinaryTreeNode<T>*Right=BTtoLLHelper(root->right);
+            while(Right&&Right->left){
+                Right=Right->left;
+            }
+            Right->left=root;
+            root->right=Right;
+        }
+        return root;
+    }
+
 
 
 public:
@@ -97,6 +131,14 @@ public:
     BinaryTree(const BinaryTree&B):root(0){
         //root=DuplicateAs(B.root);         //copy constructor
         root=new BinaryTreeNode<T>(*B.root);
+    }
+    BinaryTreeNode<T>*BTtoLL(){
+        if(!root)return root;
+        root=BTtoLLHelper(root);
+        while(root->left){
+            root=root->left;
+        }
+        return root;
     }
     BinaryTree&operator=(const BinaryTree&B){
         //Clear(root);                      //assignment operator overloaded
@@ -506,8 +548,8 @@ private:
        if(!root)
            return pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>(NULL,NULL);
        Left=findLCARecursiveHelper(root->left,ele1,ele2);
-       Right=findLCARecursiveHelper(root->right,ele1,ele2);
        if(Left.first&&Left.second)return Left;
+       Right=findLCARecursiveHelper(root->right,ele1,ele2);
        if(Right.first&&Right.second)return Right;
        P.first=Left.first?Left.first:Right.first;
        P.second=Left.second?Left.second:Right.second;

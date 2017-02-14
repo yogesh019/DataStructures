@@ -150,6 +150,7 @@ int main(){
     cout<<"Largest BST: "<<B.largestBST()<<endl;
     **/
     //B.prettyPrint();
+    printList(B.BTtoLL());
     return 0;
 }
 
