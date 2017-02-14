@@ -150,7 +150,8 @@ int main(){
     cout<<"Largest BST: "<<B.largestBST()<<endl;
     **/
     //B.prettyPrint();
-    printList(B.BTtoLL());
+    //printList(B.BTtoLL());
+    cout<<"Second Largest Element: "<<B.SecondLargest()->data<<endl;
     return 0;
 }
 

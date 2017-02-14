@@ -539,11 +539,48 @@ public:
       if(P.first&&P.second)
           return P.first;
       return NULL;
-}
+
+  }
+  BinaryTreeNode<T>*SecondLargest(){
+      return SecondLargestHelper(root).second;
+  }
+
+
+   
            
 private:
    
-   static pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>findLCARecursiveHelper(BinaryTreeNode<T>*root,const T&ele1,const T&ele2){
+    static pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>SecondLargestHelper(BinaryTreeNode<T>*root){
+       if(!root)
+          return pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>(NULL,NULL);
+      pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>Left=SecondLargestHelper(root->left); 
+      pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>Right=SecondLargestHelper(root->right);
+      pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>P(root,root);
+      if(Left.first&&Left.first->data>P.first->data){
+          P.first=Left.first;
+      }
+      if(Right.first&&Right.first->data>P.first->data){
+          P.first=Right.first;
+      }
+      if(Left.first&&Left.first!=P.first&&Left.first->data>P.second->data)
+          P.second=Left.first;
+      
+      if(Left.second&&Left.second!=P.first&&Left.second->data>P.second->data)
+         P.second=Left.second; 
+      
+      if(Right.first&&Right.first!=P.first&&Right.first->data>P.second->data)
+          P.second=Right.first;
+      
+      if(Right.second&&Right.second!=P.first&&Right.second->data>P.second->data)
+         P.second=Right.second; 
+
+      
+      return P;
+    }
+
+
+  
+    static pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>findLCARecursiveHelper(BinaryTreeNode<T>*root,const T&ele1,const T&ele2){
        pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*> Left,Right,P;
        if(!root)
            return pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>(NULL,NULL);
