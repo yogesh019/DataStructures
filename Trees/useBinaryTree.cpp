@@ -103,10 +103,10 @@ int main(){
     //cout<<B.NextGreater('B')->data<<endl;
     //cout<<B.NextGreater('G')->data<<endl;
     /**
-    cout<<B.findLCAUsingStack('4','5')->data<<endl;
-    cout<<B.findLCAUsingStack('4','6')->data<<endl;
-    cout<<B.findLCAUsingStack('3','4')->data<<endl;
-    cout<<B.findLCAUsingStack('2','4')->data<<endl;
+    cout<<B.findLCARecursive('4','5')->data<<endl;
+    cout<<B.findLCARecursive('4','6')->data<<endl;
+    cout<<B.findLCARecursive('3','4')->data<<endl;
+    cout<<B.findLCARecursive('2','4')->data<<endl;
     **/
     //B.ReplaceNodesWithDepthValue();
     //B.printTree();
@@ -140,6 +140,7 @@ int main(){
       //  cout<<"Tree is BST"<<endl;
     //else
       //  cout<<"Tree is not BST"<<endl;
+    /**
     if(B.isBalanced()){
         cout<<"Tree is Balanced"<<endl;
     }
@@ -147,6 +148,8 @@ int main(){
         cout<<"Tree not balanced"<<endl;
     }
     cout<<"Largest BST: "<<B.largestBST()<<endl;
+    **/
+    //B.prettyPrint();
     return 0;
 }
 

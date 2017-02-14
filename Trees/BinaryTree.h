@@ -449,14 +449,82 @@ public:
    int largestBST(){
        return largestBSTHelper(root).second;
    }
+ 
+   void printSpaces(int spaces){
+       for(int i=0;i<spaces;i++){
+           cout<<" ";
+       }
+       return;
+   }
+  void prettyPrint(){
+     if(!root)return; 
+     queue<BinaryTreeNode<T>*>Q;
+     Q.push(root);Q.push(NULL);
+     int spaces=pow(2,height());
+     while(!Q.empty()){
+         BinaryTreeNode<T>*temp=Q.front();
+         Q.pop();
+         if(!temp){
+             if(!Q.empty()){
+                 cout<<endl;
+                 Q.push(NULL);
+                 spaces/=2;
+             }
+             continue;
+         }
+         if(temp->data!=-1){
+            printSpaces(spaces);
+            cout<<temp->data;
+            printSpaces(spaces);
+         }else{
+             printSpaces(spaces);
+             cout<<" ";
 
+             printSpaces(spaces);
+         }
+         
+         if(temp->left)Q.push(temp->left);
 
+         if(!temp->left&&temp->data!=-1)Q.push(new BinaryTreeNode<T>(-1));
+         if(temp->right)Q.push(temp->right);
+         if(!temp->right&&temp->data!=-1)Q.push(new BinaryTreeNode<T>(-1));
+     }
+     return;
+  }
+
+  BinaryTreeNode<T>*findLCARecursive(const T&ele1,const T&ele2){
+      pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>P=findLCARecursiveHelper(root,ele1,ele2);
+      if(P.first&&P.second)
+          return P.first;
+      return NULL;
+}
            
 private:
    
+   static pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>findLCARecursiveHelper(BinaryTreeNode<T>*root,const T&ele1,const T&ele2){
+       pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*> Left,Right,P;
+       if(!root)
+           return pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>(NULL,NULL);
+       Left=findLCARecursiveHelper(root->left,ele1,ele2);
+       Right=findLCARecursiveHelper(root->right,ele1,ele2);
+       if(Left.first&&Left.second)return Left;
+       if(Right.first&&Right.second)return Right;
+       P.first=Left.first?Left.first:Right.first;
+       P.second=Left.second?Left.second:Right.second;
+       if(root->data==ele1){
+           P.first=root;
+       }else if(root->data==ele2){
+           P.second=root;
+       }
+       if(P.first&&P.second&&P.first!=P.second){
+           return make_pair(root,root);
+       }
+       return P;
+   }
+
    static pair<bool,int>largestBSTHelper(BinaryTreeNode<T>*root){
        if(isBST(root))return pair<bool,int>(true,CountNodesHelper(root));
-        pair<bool,int>Left=largestBSTHelper(root->left);
+        pair<bool,int>Left=largestBSTHelper(root->left);      //O(n^2) time complexity
         pair<bool,int>Right=largestBSTHelper(root->right);
 
         return Left.first||Right.first?pair<bool,int>(true,max(Left.second,Right.second)):pair<bool,int>(false,0);
