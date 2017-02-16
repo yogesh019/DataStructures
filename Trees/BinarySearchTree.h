@@ -2,6 +2,7 @@
 #define BINARYSEARCHTREE_H_INCLUDED
 #include<iostream>
 #include<queue>
+#include<vector>
 using namespace std;
 
 template<typename T>
@@ -211,11 +212,86 @@ public:
                 return it;
         }
     }
-           
 
+    BinaryTreeNode<T>*InOrderSuccessor(const T&ele){
+        return InOrderSuccessorHelper(root,ele);
+    }
+    
+    BinaryTreeNode<T>*InOrderSuccessorIteratively(const T&ele){
+        BinaryTreeNode<T>*it=root,*succ=0,*temp=root;
+        while(it&&it->data!=ele){
+            if(it->data<ele)
+                it=it->right;
+             else
+                it=it->left;
+        }
+        if(!it)return NULL;
+        if(it->right)
+            return findMinimumHelper(it->right);
+        while(temp!=it){
+            if(temp->data>ele){
+                succ=temp;
+                temp=temp->left;
+            }else
+                temp=temp->right;
+        }
+        return succ;
+    }
+   
+   pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>findNodesWithSumToS(const T&S){
+      vector<BinaryTreeNode<T>*>v;
+      getInOrder(root,v);
+      int i=0,j=v.size()-1;
+      while(i<=j){
+          if(v[i]->data+v[j]->data==S)return pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>(v[i],v[j]);
+          else if(v[i]->data+v[j]->data<S)
+              i++;
+          else
+              j--;
+      }
+      return pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>(NULL,NULL);
+   }
+
+   pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>findPreSucc(const T&ele){
+       return findPreSuccHelper(root,ele);
+   }
 
 private:
-   
+   static pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>findPreSuccHelper(BinaryTreeNode<T>*root,const T&ele){
+       if(!root||!root->left&&!root->right)return pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>(NULL,NULL);
+       if(root->data==ele){
+           if(root->left&&!root->right)return pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>(findMaximumHelper(root->left),NULL);
+           else if(!root->left&&root->right)return pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>(NULL,findMinimumHelper(root->right));
+           else return pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>(findMaximumHelper(root->left),findMinimumHelper(root->right));
+       }
+       if(root->data>ele){
+           pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>P=findPreSuccHelper(root->left,ele);
+           P.second=P.second?P.second:root;
+           return P;
+       }
+       
+           pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>P=findPreSuccHelper(root->right,ele);
+           P.first=P.first?P.first:root;
+           return P;
+       
+   }
+   static void getInOrder(BinaryTreeNode<T>*root,vector<BinaryTreeNode<T>*>&v){
+      if(!root)return;
+      getInOrder(root->left,v); 
+      v.push_back(root);
+      getInOrder(root->right,v);
+      return;
+   }
+   static BinaryTreeNode<T>*InOrderSuccessorHelper(BinaryTreeNode<T>*root,const T&ele){
+        if(!root)return root;
+        if(root->data==ele)
+            return root->right?findMinimumHelper(root->right):NULL;
+        if(root->data>ele)
+            return InOrderSuccessorHelper(root->left,ele)?InOrderSuccessorHelper(root->left,ele):root;
+        return InOrderSuccessorHelper(root->right,ele);
+    }
+
+
     static BinaryTreeNode<T>*findLCAHelper(BinaryTreeNode<T>*root,const T&ele1,const T&ele2){
         if(!root)return NULL;
         if(root->data<ele1&&root->data<ele2)
