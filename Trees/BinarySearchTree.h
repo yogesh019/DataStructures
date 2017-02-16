@@ -255,8 +255,24 @@ public:
    pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>findPreSucc(const T&ele){
        return findPreSuccHelper(root,ele);
    }
-
+   
+   void printBetweenK1K2(const T&K1,const T&K2){
+       printBetweenK1K2Helper(root,K1,K2);
+       return;
+   }
 private:
+  
+   
+   static void printBetweenK1K2Helper(BinaryTreeNode<T>*root,const T&K1,const T&K2){    
+       if(!root)return;
+       if(root->data>K1)
+           printBetweenK1K2Helper(root->left,K1,K2);
+       if(root->data>=K1&&root->data<=K2)
+           cout<<root->data<<" ";
+       if(root->data<K2)
+           printBetweenK1K2Helper(root->right,K1,K2);
+       return;
+   }
    static pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>findPreSuccHelper(BinaryTreeNode<T>*root,const T&ele){
        if(!root||!root->left&&!root->right)return pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>(NULL,NULL);
        if(root->data==ele){

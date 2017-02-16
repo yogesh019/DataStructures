@@ -42,15 +42,18 @@ int main(){
     //cout<<"LCA: "<<B.findLCA(10,14)->data<<endl;
     //cout<<"LCA: "<<B.findLCA(14,8)->data<<endl;
     //cout<<"LCA: "<<B.findLCA(10,22)->data<<endl;
-    cout<<"Enter the element: ";
-    cin>>ch;
+    //cout<<"Enter the element: ";
+    //cin>>ch;
     //cout<<"Inorder succesor is: "<<B.InOrderSuccessorIteratively(ch)->data<<endl;
 /**
 pair<BinaryTreeNode<int>*,BinaryTreeNode<int>*>P=B.findNodesWithSumToS(12);
     cout<<"Nodes with sum to S: "<<P.first->data<<" "<<P.second->data<<endl;
 **/
+   /**
     pair<BinaryTreeNode<char>*,BinaryTreeNode<char>*>P=B.findPreSucc(ch);
     cout<<"Inorder Predecessor and successor are : "<<P.first->data<<" "<<P.second->data<<endl;
+   **/
+    B.printBetweenK1K2('B','I');
     return 0;
 }
 
