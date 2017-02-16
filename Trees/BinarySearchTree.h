@@ -189,11 +189,40 @@ public:
         root=deleteNodeHelper(root,ele);
         return;
     }
+    
+    /*Time complexity of above sol is O(h) where h is the height.Also O(h) 
+     * extra space in function call stack for recursive function calls.
+     * We can avoid extra space using iterative solution**/
 
+    BinaryTreeNode<T>*findLCA(const T&ele1,const T&ele2){
+        return findElementRecursiveHelper(root,ele1)&&findElementRecursiveHelper(root,ele2)?findLCAHelper(root,ele1,ele2):NULL;
+    }
+
+    BinaryTreeNode<T>*findLCAIteratively(const T&ele1,const T&ele2){
+        if(!root)return NULL;
+        BinaryTreeNode<T>*it=root;
+        while(it){
+  
+            if(it->data<ele1&&it->data<ele2)
+                it=it->right;
+            else  if(it->data>ele1&&it->data>ele2)
+                it=it->left;
+            else
+                return it;
+        }
+    }
+           
 
 
 private:
    
+    static BinaryTreeNode<T>*findLCAHelper(BinaryTreeNode<T>*root,const T&ele1,const T&ele2){
+        if(!root)return NULL;
+        if(root->data<ele1&&root->data<ele2)
+            return findLCAHelper(root->right,ele1,ele2);
+        return root->data>ele1&&root->data>ele2?findLCAHelper(root->left,ele1,ele2):root;
+    }
+    
     static BinaryTreeNode<T>*deleteNodeHelper(BinaryTreeNode<T>*root,const T&ele){
         if(!root)return root;
         if(root->data==ele){

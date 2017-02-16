@@ -1,24 +1,24 @@
 #include"BinarySearchTree.h"
 int main(){
-    BinarySearchTree<char>B;
+    BinarySearchTree<int>B;
     int pre[]={10,5,1,7,40,50};
     int arr[]={1,2,3,4,5,6,7};
     //B.constructBSTfromPreOrder(pre,6);
     //B.buildBalancedBST(arr,7);
     char ch;
-    B.insertElementRecursive('F');
-    B.insertElementRecursive('B');
-    B.insertElementRecursive('G');
-    B.insertElementRecursive('A');
-    B.insertElementRecursive('D');
-    B.insertElementRecursive('I');
-    B.insertElementRecursive('C');
-    B.insertElementRecursive('E');
-    B.insertElementRecursive('H');
+    B.insertElementRecursive(20);
+    B.insertElementRecursive(8);
+    B.insertElementRecursive(22);
+    B.insertElementRecursive(4);
+    B.insertElementRecursive(12);
+    B.insertElementRecursive(10);
+    B.insertElementRecursive(14);
+    //B.insertElementRecursive('E');
+    //B.insertElementRecursive('H');
     
-    cout<<"Enter the node to delete: ";
-    cin>>ch;
-    B.deleteNodeIteratively(ch);
+    //cout<<"Enter the node to delete: ";
+    //cin>>ch;
+    //B.deleteNodeIteratively(ch);
     
    // BinarySearchTree<char>B1=B;
     //B.~BinarySearchTree();
@@ -36,6 +36,11 @@ int main(){
     cout<<endl;
     cout<<"PreOrder: ";
     B.printPreOrder();
-
+    cout<<endl;
+    
+    cout<<"LCA: "<<B.findLCA(10,14)->data<<endl;
+    cout<<"LCA: "<<B.findLCA(14,8)->data<<endl;
+    cout<<"LCA: "<<B.findLCA(10,22)->data<<endl;
+    
     return 0;
 }
