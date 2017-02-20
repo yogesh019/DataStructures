@@ -1,9 +1,9 @@
 #include<iostream>
 #include<iomanip>
 #include<cstdlib>
-
 using namespace std;
 
+int Count=0;
 bool isSafe(char board[][100],int N,int row,int col){
    for(int i=0;i<col;i++){
        if(board[row][i])return false;
@@ -41,14 +41,19 @@ void printSolution(char board[][100],int N){
 
 bool NQueen(char board[][100],int N,int col){
     if(col==N){
+        Count++;
+        printSolution(board,N);
         return true;
     }
     for(int i=0;i<N;i++){
         if(isSafe(board,N,i,col)){
             board[i][col]='Q';
+            NQueen(board,N,col+1);
+            /*
             if(NQueen(board,N,col+1)){
                 return true;
             }
+            */
             board[i][col]=0;
         }
     }
@@ -72,12 +77,17 @@ int main(){
         }
         cout<<"Enter the board size(N*N): ";
         cin>>N;
+        Count=0;
+        NQueen(board,N,0);
+        cout<<"No of solutions: "<<Count<<endl;
+        /**
         if(NQueen(board,N,0)){
             printSolution(board,N);
         }
         else{
             cout<<"Solution does not exits!"<<endl;
         }
+        **/
     }
     return 0;
 }
