@@ -7,11 +7,23 @@
 #include"MyComplex.h"
 #include<complex>
 #include<set>
+#include"MyList.h"
 using namespace std;
 
 
 
 int main(){
+MyList<int>L1,L2;
+for(int i=0;i<10;i++){
+    L1.Push_Back(i*i);
+
+}
+cout<<L1.Back()<<endl;
+for(MyList<int>::Iterator it=L1.Begin();it!=L1.End();it++){
+    cout<<*it<<" ";
+}
+   
+/**
     set<int>s;
     for(int i=10;i>0;i--){
         s.insert(i);
