@@ -197,13 +197,7 @@ to travel the next path it will say that marked node B has been again found,henc
  u is not parent of v,then there is a cycle in a graph.If we don't find
 such an adjacent for any vertex, there is no cycle
 */
-
-/*Note we have to take an assumption here that there is no parallel edges in a graph
- * for ex      1-----2
- *             |     |
- *             3     4
- *    this does nt contains cycle but our method proves wrong here
- */         
+         
     bool isCyclePresent(){
         unordered_set<char>S;
         for(set<char>::iterator it=Vertices.begin();it!=Vertices.end();it++){
