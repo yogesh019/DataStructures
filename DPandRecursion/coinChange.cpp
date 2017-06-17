@@ -31,6 +31,8 @@ int coinChangeIterative(int *denom,int n,int amount){
     }
     return dp[amount][n];
 }
+// Note: In Memoization the entire table  is not filled , table is only filled on demand , for ex here if we denom={5} and amount=20
+// Then in Memoization method the entire table is not filled while in tabulation entire table is filled
 int main(){
     int amount,n,denom[100];
     cout<<"Enter the number  of denominations: ";
