@@ -1,4 +1,5 @@
 #include<iostream>
+#include<stack>
 using namespace std;
 
 struct Node{
@@ -319,7 +320,7 @@ Node*findMidElement(Node*head){
     Node*mid=head;
     while(head){
         head=head->next;
-        if(!head)break;
+        //if(!head)break;
         if(Count&1){
             mid=mid->next;
         }
@@ -327,7 +328,34 @@ Node*findMidElement(Node*head){
     }
     return mid;
 }
+/*****************************************************************************************************************************************/
 
+bool checkPalindrome(Node*head){
+    Node*mid=findMidElement(head);
+    Node*initial=mid;
+    reverseList(mid);
+    Node*temp=mid;                                      // time complexity is O(n) and space complexity is O(1)
+    while(head!=initial&&head->data==mid->data){
+        head=head->next;
+        mid=mid->next;
+    }
+    reverseList(temp);
+    return head==temp;
+}
+bool checkPalindromeUsingStack(Node*head){
+    stack<Node*>S;
+    Node*temp=head;                 // time complexity is  O(n) and space complexity is also O(n)
+    while(temp){
+        S.push(temp);
+        temp=temp->next;
+    }
+    while(head&&head->data==S.top()->data){
+        head=head->next;
+        S.pop();
+    }
+    return S.empty();
+}
+/***************************************************************************************************************************************/
 
 int main(){
     Node*head=createList();
@@ -359,7 +387,13 @@ int main(){
     //printList(reverseListRecursive(head));
     //recursiveReverse(head);
     //printList(head);
-    cout<<findMidElement(head)->data<<endl;
+    //cout<<findMidElement(head)->data<<endl;
+    if(checkPalindromeUsingStack(head)){
+        cout<<"list is Palindrome "<<endl;
+    }else{
+        cout<<"Not Palindrome "<<endl;
+    }
+
     cout<<endl; 
     return 0;
 }
