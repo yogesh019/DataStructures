@@ -288,7 +288,7 @@ Node*reverseListRecursive(Node*head){  // Note : if here we use Node*&head , the
 void recursiveReverse(Node*&head){
     if(!head)return;
     Node*rest=head->next;
-    if(!rest)return;
+    if(!rest)return;            // time complexity is O(n) and space complexity is also O(n) as rest is made in each iteration
     recursiveReverse(rest);
     head->next->next=head;
     head->next=0;
@@ -296,6 +296,37 @@ void recursiveReverse(Node*&head){
     return;
 }
 /****************************************************************************************************************************************/
+
+Node*findMidElement(Node*head){
+    /*
+    int len=length(head);
+    for(int i=0;i<len/2;i++){       // for even elements , it return second middle element
+        head=head->next;
+    }
+    return head;
+    */
+    /*
+    Node*mid=head;
+    while(mid&&mid->next){
+                                // returns the second middle element if elements are even
+        mid=mid->next->next;
+        if(!mid)break;// now it returns the first middle element
+        head=head->next;
+    }
+    return head;
+*/
+    int Count=0;
+    Node*mid=head;
+    while(head){
+        head=head->next;
+        if(!head)break;
+        if(Count&1){
+            mid=mid->next;
+        }
+        Count++;
+    }
+    return mid;
+}
 
 
 int main(){
@@ -326,8 +357,9 @@ int main(){
     //reverseList(head);
     //printList(head);
     //printList(reverseListRecursive(head));
-    recursiveReverse(head);
-    printList(head);
+    //recursiveReverse(head);
+    //printList(head);
+    cout<<findMidElement(head)->data<<endl;
     cout<<endl; 
     return 0;
 }
