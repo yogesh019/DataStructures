@@ -7,7 +7,7 @@ struct Node{
 
     Node(const int&ele=0,Node*temp=0):data(ele),next(temp){}
 };
-
+/***************************************************************************************************************************************/
 Node*createList(){
     Node*head=0,*prev=0;
     int value;                                      //O(n) time , O(1) space
@@ -39,6 +39,7 @@ Node*createList2(){
     }
     return prev;
 }
+/***************************************************************************************************************************************/
 void printList(Node*head){
     while(head){
         cout<<head->data<<"-->";
@@ -94,7 +95,7 @@ void print(Node*&head){
     return;
 }
 */
-
+/****************************************************************************************************************************************/
 int length(Node*head){
     int len=0;
     while(head){
@@ -106,6 +107,7 @@ int length(Node*head){
 int lengthRecursive(Node*head){
     return !head?0:1+lengthRecursive(head->next);
 }
+/****************************************************************************************************************************************/
 
 Node*findKthNode(Node*head,int K){
     if(K<0)return NULL;
@@ -122,6 +124,7 @@ Node*findKthNodeRecursive(Node*head,int K){              // we are just traversi
     return findKthNodeRecursive(head->next,K-1);
 }
 
+/****************************************************************************************************************************************/
 void InsertAtKthIndex(Node*&head,int K,int value){
     Node*temp=new Node(value);
     if(!K){
@@ -148,7 +151,7 @@ Node*InsertAtKthIndexRecursive(Node*&head,int K,int value){
     head->next=InsertAtKthIndexRecursive(head->next,K-1,value); // here we are setting the next pointer on the return
     return head;
 }
-
+/****************************************************************************************************************************************/
 void deleteKthNode(Node*&head,int K){
     if(K>=length(head))return;
     if(!K){
@@ -177,8 +180,7 @@ Node*deleteKthNodeRecursive(Node*&head,int K){
     head->next=deleteKthNodeRecursive(head->next,K-1);
     return head;
 }
-    
-
+/*****************************************************************************************************************************************/
 void freeList(Node*&head){
     while(head){
         Node*temp=head;
@@ -194,7 +196,7 @@ void freeListRecursive(Node*&head){
     head=0;
     return;
 }
-
+/*****************************************************************************************************************************************/
 void reversePrintRecursive(Node*head){
     if(!head){
         cout<<"NULL";
@@ -229,7 +231,30 @@ void reversePrint(Node*head){
     }
     return;
 }
+/*****************************************************************************************************************************************/
 
+Node*findKthNodeFromEnd(Node*head,int K){
+   /*
+   //Method 1
+   int len=length(head);
+   for(int i=0;i<len-K-1;i++){
+        head=head->next;
+    }
+    return head;
+    */
+    //Method 2
+    Node*ahead=head;
+    while(K--){
+        ahead=ahead->next;
+    }
+    while(ahead->next){
+        head=head->next;
+        ahead=ahead->next;
+    }
+    return head;
+    
+}
+/*****************************************************************************************************************************************/
 int main(){
     Node*head=createList();
     printList(head);
@@ -253,7 +278,8 @@ int main(){
     //InsertAtKthIndexRecursive(head,0,89);
     //printList(head);
     //cout<<endl;
-    reversePrintRecursive(head);
+    //reversePrintRecursive(head);
+    cout<<findKthNodeFromEnd(head,1)->data;
     cout<<endl;
     return 0;
 }
