@@ -255,6 +255,49 @@ Node*findKthNodeFromEnd(Node*head,int K){
     
 }
 /*****************************************************************************************************************************************/
+
+int index(Node*head,Node*temp){
+    return head==temp?0:1+index(head->next,temp);
+}
+/****************************************************************************************************************************************/
+int frequency(Node*head,int ele){
+   return !head?0:head->data==ele?1+frequency(head->next,ele):frequency(head->next,ele);
+}
+/****************************************************************************************************************************************/
+void reverseList(Node*&head){
+    Node*NEXT=0,*prev=0;
+    while(head){
+        NEXT=head->next;
+        head->next=prev;
+        prev=head;
+        head=NEXT;
+    }
+    head=prev;
+    return;
+}
+Node*reverseListRecursive(Node*head){  // Note : if here we use Node*&head , there will be problem, if input is 1-->2-->3-->4-->5-->NULL
+    if(!head||!head->next)return head; // then after call to this function , if we do printList(head) output will be 5-->1-->NULL
+    Node*temp=reverseListRecursive(head->next);// because here we are creating alias of next pointer of each block of memory
+    head->next->next=head;
+    head->next=0;           
+    // head=temp ~ wrong output is we do this , and create an alias to each  next pointer of the block of the memory
+    return temp;
+}
+
+//Don't create alias to each next pointer of the block of memory, rather creates an extra rest pointer for doing this
+void recursiveReverse(Node*&head){
+    if(!head)return;
+    Node*rest=head->next;
+    if(!rest)return;
+    recursiveReverse(rest);
+    head->next->next=head;
+    head->next=0;
+    head=rest;
+    return;
+}
+/****************************************************************************************************************************************/
+
+
 int main(){
     Node*head=createList();
     printList(head);
@@ -279,8 +322,13 @@ int main(){
     //printList(head);
     //cout<<endl;
     //reversePrintRecursive(head);
-    cout<<findKthNodeFromEnd(head,1)->data;
-    cout<<endl;
+    //cout<<findKthNodeFromEnd(head,1)->data;
+    //reverseList(head);
+    //printList(head);
+    //printList(reverseListRecursive(head));
+    recursiveReverse(head);
+    printList(head);
+    cout<<endl; 
     return 0;
 }
 
