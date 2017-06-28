@@ -195,6 +195,41 @@ void freeListRecursive(Node*&head){
     return;
 }
 
+void reversePrintRecursive(Node*head){
+    if(!head){
+        cout<<"NULL";
+        return;
+    }
+    reversePrintRecursive(head->next);
+    cout<<"<--"<<head->data;
+    return;
+}
+void reversePrint(Node*head){
+    cout<<"NULL";
+    /*
+    for(int i=0;i<length(head);i++){
+        Node*temp=head;
+        for(int j=0;j<length(head)-i-1;j++){
+           temp=temp->next;
+        }
+        cout<<"<--"<<temp->data;
+    }
+    */
+                        // time complexity is O(n^2)
+                      // the way to think is that we go to last item in first iteration, second last in the second iteration and so on ....
+                     //number of iterations are n and work done in each iteration is O(n)
+    Node*last=0;
+    while(head!=last){
+        Node*curr=head;
+        while(curr->next!=last){
+            curr=curr->next;
+        }
+        cout<<"<--"<<curr->data;
+        last=curr;
+    }
+    return;
+}
+
 int main(){
     Node*head=createList();
     printList(head);
@@ -211,12 +246,14 @@ int main(){
     //deleteKthNode(head,0);
     //freeListRecursive(head);
     //freeList(head);
-    printList(head);
-    cout<<endl;
+    //printList(head);
+    //cout<<endl;
     //freeList(head);
     //deleteKthNodeRecursive(head,2);
     //InsertAtKthIndexRecursive(head,0,89);
-    printList(head);
+    //printList(head);
+    //cout<<endl;
+    reversePrintRecursive(head);
     cout<<endl;
     return 0;
 }
