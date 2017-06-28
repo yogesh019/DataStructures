@@ -356,6 +356,21 @@ bool checkPalindromeUsingStack(Node*head){
     return S.empty();
 }
 /***************************************************************************************************************************************/
+void InsertInSortedLinklist(Node*&head,int value){
+    static Node*newNode=new Node(value);
+    if(!head||head->data>=value){
+        newNode->next=head;
+        head=newNode;
+        return;
+    }
+    if(head->data<value&&head->next&&head->next->data>=value){
+        newNode->next=head->next;
+        head->next=newNode;
+        return;
+    }
+    InsertInSortedLinklist(head->next,value);
+    return;
+}
 
 int main(){
     Node*head=createList();
@@ -388,12 +403,14 @@ int main(){
     //recursiveReverse(head);
     //printList(head);
     //cout<<findMidElement(head)->data<<endl;
+    /*
     if(checkPalindromeUsingStack(head)){
         cout<<"list is Palindrome "<<endl;
     }else{
         cout<<"Not Palindrome "<<endl;
-    }
-
+    }*/
+    InsertInSortedLinklist(head,9);
+    printList(head);
     cout<<endl; 
     return 0;
 }
