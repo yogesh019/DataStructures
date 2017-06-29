@@ -551,7 +551,7 @@ Node*merge2sortedLinklist(Node*head1,Node*head2){
 }
  
 void merge_sort(Node*&head){
-    if(!head||!head->next)return;
+    if(!head||!head->next)return;//Time Complexity is O(nlogn), Merge Sort is favourible for linklist beacause no extra space is required 
     Node*mid=findMidElement(head);
     Node*prevToMid=findKthNode(head,length(head)/2-1);
     prevToMid->next=0;
@@ -560,7 +560,85 @@ void merge_sort(Node*&head){
     head=merge2sortedLinklist(head,mid);
     return;
 }
+/***************************************************************************************************************************************/
+// sort a linklist which has 2 halves sorted
+void sort2halves(Node*&head){
+    if(!head||!head->next)return;
+    Node*mid=findMidElement(head);
+    if(mid->data>mid->next->data){
+        mid=mid->next;
+    }
+    int k=index(head,mid);
+    Node*prevToMid=findKthNode(head,k-1);
+    prevToMid->next=0;
+    head=merge2sortedLinklist(head,mid);
+    return;
+}
+/****************************************************************************************************************************************/
+// SELECTION SORT
 
+Node*removeSmallestFromList(Node*&head){
+    Node*smallest=head,*smallest_prev=0;
+    Node*temp=head->next,*prev=head;
+    while(temp){
+        if(smallest->data>temp->data){
+            smallest=temp;
+            smallest_prev=prev;
+        }
+        prev=temp;
+        temp=temp->next;
+    }
+    if(smallest==head){
+        head=head->next;
+    }
+    else{
+        smallest_prev->next=smallest->next;
+    }
+    return smallest;
+}
+   
+void selection_sort(Node*&head){                                 // proceeds by constructed a sorted as well as an unsorted array
+    Node*unsortedHead=head,*sortedHead=0,*prev=0;               // Time Complexity in all cases is O(n^2)
+    while(unsortedHead){
+        Node*smallest=removeSmallestFromList(unsortedHead);
+        if(!sortedHead){
+            sortedHead=smallest;
+        }else{
+            prev->next=smallest;
+        }
+        prev=smallest;
+    }
+    head=sortedHead;
+    return;
+}
+/****************************************************************************************************************************************/
+
+void insertSorted(Node*head,Node*&sortedHead){
+    if(!sortedHead||sortedHead->data>head->data){
+        head->next=sortedHead;
+        sortedHead=head;
+    }else{
+        Node*temp=sortedHead;
+        while(temp->next&&temp->next->data<head->data){
+            temp=temp->next;
+        }
+        head->next=temp->next;
+        temp->next=head;
+    }
+    return;
+}
+                                                         // Time Complexity ~ Best Case O(n)
+void insertion_sort(Node*&head){                         // Average and Worst Case  O(n^2)
+    Node*sortedHead=0;
+    while(head){
+        Node*NEXT=head->next;
+        insertSorted(head,sortedHead);
+        head=NEXT;
+    }
+    head=sortedHead;
+    return;
+}
+/****************************************************************************************************************************************/
 
 
 int main(){
@@ -613,7 +691,10 @@ int main(){
     //printList(head);
     //removeDuplicatesSorted(head);
     //removeDuplicatesUnsorted(head);
-    merge_sort(head);
+    //merge_sort(head);
+    //sort2halves(head);
+    //selection_sort(head);
+    insertion_sort(head);
     printList(head);
     cout<<endl; 
     return 0;
