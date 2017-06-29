@@ -435,7 +435,22 @@ void swapIthAndJthNode(Node*&head,int i,int j){
     }
     return;
 }
-
+/****************************************************************************************************************************************/
+// Reverse a linklist in groups of given  size
+//Inputs:   1->2->3->4->5->6->7->8->NULL and k = 5
+//Output:  5->4->3->2->1->8->7->6->NULL
+Node*kReverse(Node*head,int K){
+    int Count=K;
+    Node*curr=head,*prev=0;
+    while(Count--&&curr){
+        Node*NEXT=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=NEXT;
+    }
+    if(curr)head->next=kReverse(curr,K);
+    return prev;
+}
 int main(){
     Node*head=createList();
     printList(head);
@@ -478,11 +493,12 @@ int main(){
     //cout<<"Enter number of nodes to prepend: ";
     //cin>>n;
     //prepend(head,n);
-    int i,j;
-    cout<<"Enter the ith and jth node to swap: ";
-    cin>>i>>j;
-    swapIthAndJthNode(head,i,j);
-    printList(head);
+    //int i,j;
+    //cout<<"Enter the ith and jth node to swap: ";
+    //cin>>i>>j;
+    //swapIthAndJthNode(head,i,j);
+    printList(kReverse(head,3));
+    //printList(head);
     cout<<endl; 
     return 0;
 }
