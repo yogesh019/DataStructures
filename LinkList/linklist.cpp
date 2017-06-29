@@ -244,15 +244,16 @@ Node*findKthNodeFromEnd(Node*head,int K){
     return head;
     */
     //Method 2
+    
     Node*ahead=head;
-    while(K--){
+    while(K--&&ahead){
         ahead=ahead->next;
     }
-    while(ahead->next){
+    while(ahead&&ahead->next){
         head=head->next;
         ahead=ahead->next;
     }
-    return head;
+    return ahead?head:ahead;
     
 }
 /*****************************************************************************************************************************************/
@@ -371,7 +372,37 @@ void InsertInSortedLinklist(Node*&head,int value){
     InsertInSortedLinklist(head->next,value);
     return;
 }
+/****************************************************************************************************************************************/
 
+//Append last n nodes to start
+void prepend(Node*&head,int n){
+    /*
+    //Method 1: create a gap b/w 2 pointers and when the faster recahes at the end , the slower will reach at it's correct position
+    Node*curr=head,*ahead=head;
+    while(n--&&ahead){
+        ahead=ahead->next;
+    }
+    while(ahead&&ahead->next){
+        ahead=ahead->next;
+        curr=curr->next;
+    }
+    if(ahead&&curr){
+        ahead->next=head;
+        head=curr->next;
+        curr->next=0;
+    }
+    return;
+*/
+    Node*temp=findKthNodeFromEnd(head,n);
+    Node*last=findKthNodeFromEnd(head,0);
+    if(temp&&last){
+        last->next=head;
+        head=temp->next;
+        temp->next=0;
+    }
+    return;
+}
+    
 int main(){
     Node*head=createList();
     printList(head);
@@ -409,7 +440,11 @@ int main(){
     }else{
         cout<<"Not Palindrome "<<endl;
     }*/
-    InsertInSortedLinklist(head,9);
+    //InsertInSortedLinklist(head,9);
+    int n;
+    cout<<"Enter number of nodes to prepend: ";
+    cin>>n;
+    prepend(head,n);
     printList(head);
     cout<<endl; 
     return 0;
