@@ -1,5 +1,6 @@
 #include<iostream>
 #include<stack>
+#include<unordered_set>
 using namespace std;
 
 struct Node{
@@ -451,6 +452,57 @@ Node*kReverse(Node*head,int K){
     if(curr)head->next=kReverse(curr,K);
     return prev;
 }
+/***************************************************************************************************************************************/
+void removeDuplicatesSorted(Node*head){
+    if(!head||!head->next)return ;
+    if(head->data==head->next->data){
+        Node*temp=head->next;                        // remove Duplicates From A Sorted Linklist ~ Takes O(n) time
+        head->next=temp->next;
+        delete temp;
+    }else{
+        head=head->next;
+    }
+    removeDuplicatesSorted(head);
+    return;
+}
+/// remove Duplicates from an unsorted linklist
+/**
+METHOD 1 (Using two loops)
+This is the simple way where two loops are used. Outer loop is used to pick the elements one by one and inner loop compares 
+the picked element with rest of the elements.
+It requires O(n^2) complexity
+
+METHOD 2 (Use Sorting)
+In general, Merge Sort is the best suited sorting algorithm for sorting linked lists efficiently.
+1)  Sort the elements using Merge Sort O(nLogn)
+2)  Remove duplicates in linear time using the algorithm for removing duplicates in sorted Linked List. O(n)
+
+This method does not preserve the original order of elements
+Time Complexity is O(nlogn)
+
+Method 3(Hashing) : can do the job in linear O(n) time but takes space
+**/ 
+
+void removeDuplicatesUnsorted(Node*head){
+    unordered_set<int>S;
+    Node*prev=0;
+    while(head){
+        if(S.find(head->data)==S.end()){
+            S.insert(head->data);
+           
+        }else{
+            prev->next=head->next;
+            delete head;
+            head=prev->next;
+            continue;
+        }
+        prev=head;
+        head=head->next;
+    }
+    return;
+}
+            
+         
 int main(){
     Node*head=createList();
     printList(head);
@@ -497,8 +549,11 @@ int main(){
     //cout<<"Enter the ith and jth node to swap: ";
     //cin>>i>>j;
     //swapIthAndJthNode(head,i,j);
-    printList(kReverse(head,3));
+    //printList(kReverse(head,3));
     //printList(head);
+    //removeDuplicatesSorted(head);
+    removeDuplicatesUnsorted(head);
+    printList(head);
     cout<<endl; 
     return 0;
 }
