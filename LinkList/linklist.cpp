@@ -502,7 +502,67 @@ void removeDuplicatesUnsorted(Node*head){
     return;
 }
             
-         
+/****************************************************************************************************************************************/
+
+Node*merge2sortedLinklist(Node*head1,Node*head2){
+    /*
+    Node*head3=0;
+    if(head1->data<head2->data){
+        head3=head1;
+        head1=head1->next;
+    }else{
+        head3=head2;
+        head2=head2->next;
+    }
+    Node*temp=head3;
+    while(head1&&head2){
+        if(head1->data<head2->data){
+            temp->next=head1;
+            head1=head1->next;
+        }else{
+            temp->next=head2;
+            head2=head2->next;
+        }
+        temp=temp->next;
+    }
+    while(head1){
+        temp->next=head1;
+        head1=head1->next;
+        temp=temp->next;
+    }
+    while(head2){
+        temp->next=head2;
+        head2=head2->next;
+        temp=temp->next;
+    }
+    return head3;
+*/
+    
+    if(!head1)return head2;
+    else if(!head2)return head1;
+    else if(head1->data<head2->data){
+        head1->next=merge2sortedLinklist(head1->next,head2);
+        return head1;
+    }
+    
+    head2->next=merge2sortedLinklist(head1,head2->next);
+    return head2;
+    
+}
+ 
+void merge_sort(Node*&head){
+    if(!head||!head->next)return;
+    Node*mid=findMidElement(head);
+    Node*prevToMid=findKthNode(head,length(head)/2-1);
+    prevToMid->next=0;
+    merge_sort(head);
+    merge_sort(mid);
+    head=merge2sortedLinklist(head,mid);
+    return;
+}
+
+
+
 int main(){
     Node*head=createList();
     printList(head);
@@ -552,7 +612,8 @@ int main(){
     //printList(kReverse(head,3));
     //printList(head);
     //removeDuplicatesSorted(head);
-    removeDuplicatesUnsorted(head);
+    //removeDuplicatesUnsorted(head);
+    merge_sort(head);
     printList(head);
     cout<<endl; 
     return 0;
