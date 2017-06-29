@@ -402,7 +402,40 @@ void prepend(Node*&head,int n){
     }
     return;
 }
-    
+/****************************************************************************************************************************************/
+
+void swapIthAndJthNode(Node*&head,int i,int j){
+    Node*ith=0,*iprev=0,*inext=0,*jth=0,*jprev=0,*jnext=0;
+    if(i>j)return;
+    if(i==0){
+        ith=head;
+        iprev=0;
+        inext=ith->next;
+    }else{
+        iprev=findKthNode(head,i-1);
+        if(!iprev)return;
+        ith=iprev->next;
+        inext=ith->next;
+    }
+    jprev=findKthNode(head,j-1);
+    if(!jprev||jprev==iprev)return;
+    jth=jprev->next;
+    jnext=jth->next;
+    if(i==0){
+        head=jth;
+    }else{
+        iprev->next=jth;
+    }
+    ith->next=jnext;
+    if(j==i+1){
+        jth->next=ith;
+    }else{
+        jth->next=inext;
+        jprev->next=ith;
+    }
+    return;
+}
+
 int main(){
     Node*head=createList();
     printList(head);
@@ -441,10 +474,14 @@ int main(){
         cout<<"Not Palindrome "<<endl;
     }*/
     //InsertInSortedLinklist(head,9);
-    int n;
-    cout<<"Enter number of nodes to prepend: ";
-    cin>>n;
-    prepend(head,n);
+    //int n;
+    //cout<<"Enter number of nodes to prepend: ";
+    //cin>>n;
+    //prepend(head,n);
+    int i,j;
+    cout<<"Enter the ith and jth node to swap: ";
+    cin>>i>>j;
+    swapIthAndJthNode(head,i,j);
     printList(head);
     cout<<endl; 
     return 0;
