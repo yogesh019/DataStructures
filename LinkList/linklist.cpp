@@ -768,9 +768,33 @@ The idea is to use Hashing. Below is algorithm.
 3. Traverse the original linked list again and using the hash map adjust the next and random reference of cloned linked list nodes.
 
 *****************************************************************************************************************************************/
+/*
+Number is represented in linked list such that each digit corresponds to a node in linked list. 
+Add 1 to it. For example 1999 is represented as (1-> 9-> 9 -> 9) and adding 1 to it should change it to (2->0->0->0)
 
+Method
+1)Reverse given linked list. 
+2)For example, 1-> 9-> 9 -> 9 is converted to 9-> 9 -> 9 ->1.
+Start traversing linked list from leftmost node and add 1 to it. If there is a carry, move to the next node. 
+Keep moving to the next node while there is a carry.
+3)Reverse modified linked list and return head.
+*/
 
-
+int addAndReturnCarry(Node*&head){
+    if(!head)
+        return 1;
+    int res=head->data+addAndReturnCarry(head->next);
+    head->data=res%10;
+    return res/10;
+}
+void addOne(Node*&head){
+    int carry=addAndReturnCarry(head);
+    if(carry){
+        Node*newNode=new Node(carry,head);
+        head=newNode;
+    }
+    return;
+}
 
 int main(){
     Node*head=createList();
@@ -827,6 +851,7 @@ int main(){
     //insertion_sort(head);
     //segregateOddEven(head);
     //printList(head);
+    /*
     head->rand=head->next->next;
     head->next->rand=head->next->next->next;
     head->next->next->rand=head->next->next->next->next;
@@ -839,8 +864,9 @@ int main(){
     cout<<new_list->next->rand->data<<endl;
     cout<<new_list->next->next->rand->data<<endl;
     cout<<new_list->next->next->next->next->rand->data<<endl;
-    
-
+    */
+    addOne(head);
+    printList(head);
     cout<<endl; 
     return 0;
 }
