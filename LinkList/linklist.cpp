@@ -795,7 +795,31 @@ void addOne(Node*&head){
     }
     return;
 }
+/****************************************************************************************************************************************/
 
+void bubbleSort(Node*head){
+    Node*last=0,*curr=head;
+    if(!head||!head->next)return; 
+    while(last!=head->next){
+        curr=head;                                      // Time Complexity ~ Best Case O(n)  
+        bool swapped=false;                             // Average and Worst Case ~O(n^2)
+        while(curr->next!=last){
+          
+            if(curr->data>curr->next->data){
+                swapped=true;
+                int temp=curr->data;
+                curr->data=curr->next->data;
+                curr->next->data=temp;
+            }
+            curr=curr->next;
+            if(!swapped)
+                break;
+           }
+        last=curr;
+    }
+    return;
+}
+/****************************************************************************************************************************************/
 int main(){
     Node*head=createList();
     printList(head);
@@ -865,7 +889,9 @@ int main(){
     cout<<new_list->next->next->rand->data<<endl;
     cout<<new_list->next->next->next->next->rand->data<<endl;
     */
-    addOne(head);
+    //addOne(head);
+    //printList(head);
+    bubbleSort(head);
     printList(head);
     cout<<endl; 
     return 0;
