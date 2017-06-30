@@ -820,6 +820,41 @@ void bubbleSort(Node*head){
     return;
 }
 /****************************************************************************************************************************************/
+
+void removeLoop(Node*meet,Node*head){
+    Node*temp=meet;
+    int Count=1;
+    while(temp->next!=meet){
+        temp=temp->next;
+        Count++;
+    }
+    temp=head;
+    while(Count--){
+        temp=temp->next;
+    }
+    while(head!=temp){
+        head=head->next;
+        temp=temp->next;
+    }
+    temp=temp->next;
+    while(temp->next!=head){
+        temp=temp->next;
+    }
+    temp->next=0;
+    return;
+}
+void detectAndRemoveLoop(Node*head){
+    Node*slow=head,*fast=head;
+    while(slow&&fast&&fast->next){
+        slow=slow->next;
+        fast=fast->next->next;
+        if(slow==fast)
+            removeLoop(slow,head);
+    }
+   return;
+}
+
+
 int main(){
     Node*head=createList();
     printList(head);
@@ -891,7 +926,9 @@ int main(){
     */
     //addOne(head);
     //printList(head);
-    bubbleSort(head);
+    //bubbleSort(head);
+    head->next->next->next->next->next = head->next->next; 
+    detectAndRemoveLoop(head);
     printList(head);
     cout<<endl; 
     return 0;
