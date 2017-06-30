@@ -6,8 +6,8 @@ using namespace std;
 struct Node{
     int data;
     Node*next;
-
-    Node(const int&ele=0,Node*temp=0):data(ele),next(temp){}
+    Node*rand;
+    Node(const int&ele=0,Node*temp=0,Node*temp1=0):data(ele),next(temp),rand(temp1){}
 };
 /***************************************************************************************************************************************/
 Node*createList(){
@@ -645,6 +645,51 @@ void insertion_sort(Node*&head){                         // Average and Worst Ca
  */
 
 void segregateOddEven(Node*&head){
+/*
+   Method 1 
+   Node*last=head,*prev=0;
+    while(last->next){
+        last=last->next;
+    }
+    Node*new_last=last;
+    Node*curr=head;
+    while(curr!=last&&curr->data%2){
+        new_last->next=curr;
+        curr=curr->next;
+        new_last=new_last->next;
+        new_last->next=0;
+    }
+    if(curr->data%2==0){
+
+        head=curr;
+        while(curr!=last){
+            if(curr->data%2==0){
+                prev=curr;
+                curr=curr->next;
+            }else{
+
+            prev->next=curr->next;
+            new_last->next=curr;
+            curr=curr->next;
+            new_last=new_last->next;
+            new_last->next=0;
+            }
+        }
+    }
+    else{
+
+        new_last->next=curr;
+        curr->next=0;
+        return;
+    }
+    if(new_last!=last&&last->data%2){
+        prev->next=last->next;
+        new_last->next=last;
+        last->next=0;
+    }
+return;
+
+*/ // Method 2
     Node*oddHead=0,*odd_prev=0;
     Node*evenHead=0,*even_prev=0;
     if(!head)return;
@@ -683,6 +728,49 @@ void segregateOddEven(Node*&head){
     return;
 }
 /***************************************************************************************************************************************/
+/*
+You are given a Double Link List with one pointer of each node pointing to the next node just like in a single link list. 
+The second pointer however CAN point to any node in the list and not just the previous node. 
+Now write a program in O(n) time to duplicate this list. That is, write a program which will create a copy of this list.
+*/
+
+Node*clone(Node*head){
+    Node*curr=head;
+    while(curr){
+        Node*newNode=new Node(curr->data,curr->next);
+        curr->next=newNode;
+    curr=newNode->next;
+    }
+    curr=head;
+    while(curr){
+        if(curr->rand){
+            curr->next->rand=curr->rand->next;
+        }
+    curr=curr->next->next;
+    }
+    Node*cloned_list=head->next;
+
+    while(head){
+        Node*temp=head->next;
+        head->next=temp->next;
+        if(temp->next){
+            temp->next=temp->next->next;
+        }
+        head=head->next;
+    }
+    return cloned_list;
+}
+/*
+Another method
+The idea is to use Hashing. Below is algorithm.
+1. Traverse the original linked list and make a copy in terms of data.
+2. Make a hash map of key value pair with original linked list node and copied linked list node.
+3. Traverse the original linked list again and using the hash map adjust the next and random reference of cloned linked list nodes.
+
+*****************************************************************************************************************************************/
+
+
+
 
 int main(){
     Node*head=createList();
@@ -697,7 +785,6 @@ int main(){
     //cout<<findKthNode(head,0)->data<<endl;
     //cout<<findKthNodeRecursive(head,0)->data<<endl;
     //InsertAtKthIndex(head,7,78);
-    //deleteKthNode(head,0);
     //freeListRecursive(head);
     //freeList(head);
     //printList(head);
@@ -738,8 +825,22 @@ int main(){
     //sort2halves(head);
     //selection_sort(head);
     //insertion_sort(head);
-    segregateOddEven(head);
-    printList(head);
+    //segregateOddEven(head);
+    //printList(head);
+    head->rand=head->next->next;
+    head->next->rand=head->next->next->next;
+    head->next->next->rand=head->next->next->next->next;
+    head->next->next->next->rand=head->next->next->next->next->next;
+    head->next->next->next->next->rand=head->next;
+    Node*new_list=clone(head);
+    printList(new_list);
+    cout<<endl;
+    cout<<new_list->rand->data<<endl;
+    cout<<new_list->next->rand->data<<endl;
+    cout<<new_list->next->next->rand->data<<endl;
+    cout<<new_list->next->next->next->next->rand->data<<endl;
+    
+
     cout<<endl; 
     return 0;
 }
