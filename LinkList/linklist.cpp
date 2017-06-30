@@ -640,6 +640,49 @@ void insertion_sort(Node*&head){                         // Average and Worst Ca
 }
 /****************************************************************************************************************************************/
 
+/*function to modify the linked list such that all even numbers appear before all the odd numbers in the modified linked list.
+ * Also, keep the order of even and odd numbers same.
+ */
+
+void segregateOddEven(Node*&head){
+    Node*oddHead=0,*odd_prev=0;
+    Node*evenHead=0,*even_prev=0;
+    if(!head)return;
+    while(head){                            // split the linklist into odd and even list
+        if(head->data%2){                   // Time Complexity ~O(n)
+            if(!oddHead){
+                oddHead=head;
+            }else{
+                odd_prev->next=head;
+            }
+            odd_prev=head;
+        }else{
+            if(!evenHead){
+                evenHead=head;
+            }else{
+                even_prev->next=head;
+            }
+            even_prev=head;
+        }
+    head=head->next;
+    }
+   
+    if(evenHead&&!oddHead){
+        head=evenHead;
+        even_prev->next=0;
+    }
+    else if(oddHead&&!evenHead){
+        head=oddHead;
+        odd_prev->next=0;
+    }
+    else{
+        odd_prev->next=0;
+        even_prev->next=oddHead;
+        head=evenHead;
+    }
+    return;
+}
+/***************************************************************************************************************************************/
 
 int main(){
     Node*head=createList();
@@ -694,7 +737,8 @@ int main(){
     //merge_sort(head);
     //sort2halves(head);
     //selection_sort(head);
-    insertion_sort(head);
+    //insertion_sort(head);
+    segregateOddEven(head);
     printList(head);
     cout<<endl; 
     return 0;
