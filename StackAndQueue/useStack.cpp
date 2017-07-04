@@ -1,8 +1,23 @@
-#include"StackLL.h"
-#include"DynamicStack.h"
+//#include"StackLL.h"
+//#include"DynamicStack.h"
+#include"MiddleElementStack.h"
 int main(){
+
 try{
-DynamicStack<int>S;
+    Stack<int>S;
+    for(int i=0;i<9;i++){
+        S.Push(i*i);
+    }
+    S.getMiddle()=876;
+    S.deleteMiddle();
+    while(!S.isEmpty()){
+        cout<<S.Top()<<endl;
+        S.Pop();
+    }
+    
+
+/**
+    DynamicStack<int>S;
 for(int i=0;i<10;i++){
     S.Push(i);
 }
@@ -19,6 +34,7 @@ while(!S.isEmpty()){
     cout<<S.Top()<<endl;
     S.Pop();
 }
+**/
 }catch(const char*error){
     cerr<<error<<endl;
 }
