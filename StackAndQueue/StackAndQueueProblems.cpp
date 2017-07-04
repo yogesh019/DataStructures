@@ -2,6 +2,7 @@
 #include<stack>
 #include<queue>
 #include<vector>
+#include<string>
 using namespace std;
 
 /***********************************************************************************************************************************************************/
@@ -435,7 +436,21 @@ void TowerOfHanoi(int n,char src,char dest,char path){
     TowerOfHanoi(n-1,path,dest,src);
     return;
 }
+/***************************************************************************************************************************************/
 
+// An Interseting Method to Generate Binary Numbers From 1 to N
+
+void GenerateBinaryNumbers(int N){
+    queue<string>Q;
+    Q.push("1");
+    while(N--){
+        Q.push(Q.front()+"0");
+        Q.push(Q.front()+"1");
+        cout<<Q.front()<<endl;
+        Q.pop();
+    }
+    return;
+}
 int main(){
 
 try{
@@ -446,7 +461,12 @@ try{
    char exp[]="a+b*(c^d-e)^(f+g*h)-i";
     int arr[]={11,13,21,3};
     int price[]={100,80,60,70,60,75,85};
-    TowerOfHanoi(5,'A','C','B');
+    int N;
+    cout<<"Enter N: ";
+    cin>>N;
+    GenerateBinaryNumbers(N);
+    cout<<endl;   
+    //TowerOfHanoi(5,'A','C','B');
     /**
     vector<int>v=calculateSpan(price,7);
     for(vector<int>::iterator it=v.begin();it!=v.end();it++){
