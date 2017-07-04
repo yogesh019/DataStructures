@@ -3,7 +3,28 @@
 #include"StackUsing2Queues.h"
 #include"StackUsingQueue.h"
 #include"QueueUsing2Stacks.h"
+#include"QueueUsingStack.h"
 int main(){
+    try{
+    QueueUsingStack<int>Q;
+    for(int i=0;i<10;i++){
+        Q.Enqueue(i*i);
+    }
+   QueueUsingStack<int>Q1=Q;
+    Q.Front()=890;
+    while(!Q.isEmpty()){
+        cout<<Q.Front()<<" ";
+        Q.Dequeue();
+  }
+    cout<<endl;
+    while(!Q1.isEmpty()){
+        cout<<Q1.Front()<<" ";
+        Q1.Dequeue();
+  }
+  
+    }catch(const char *error){
+        cerr<<error<<endl;
+    }
     /**
     QueueUsingStacks<int>Q;
     cout<<Q.isEmpty()<<endl;
@@ -20,7 +41,7 @@ int main(){
     while(!Q1.isEmpty()){
         cout<<Q1.Front()<<" ";
         Q1.Dequeue();
-    }**/
+    }
 
     StackUsingQueue<int>S;
     for(int i=0;i<10;i++){
@@ -38,7 +59,7 @@ int main(){
         S1.Pop();
 
     }
-
+**/
 
     /**
     CircularQueue<int>Q;
