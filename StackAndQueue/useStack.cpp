@@ -1,19 +1,21 @@
 //#include"StackLL.h"
 //#include"DynamicStack.h"
-#include"MiddleElementStack.h"
+//#include"MiddleElementStack.h"
+#include"MinElementStack.h"
 int main(){
 
 try{
-    Stack<int>S;
-    for(int i=0;i<9;i++){
-        S.Push(i*i);
-    }
-    S.getMiddle()=876;
-    S.deleteMiddle();
+    SpecialStack<int>S;
+    S.Push(18);
+    S.Push(19);
+    S.Push(29);
+    S.Push(15);
+    S.Push(16);
+    
     while(!S.isEmpty()){
-        cout<<S.Top()<<endl;
+       cout<<S.Top()<<" "<<S.getMinimum()<<endl;
         S.Pop();
-    }
+   }
     
 
 /**
