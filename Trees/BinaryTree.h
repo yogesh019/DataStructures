@@ -295,6 +295,7 @@ public:
    }
    
    void InOrderUsingStack(){
+       /*
        stack<BinaryTreeNode<T>*>S;// Time complexity is O(n) in Binary Tree when traversals(PreOrder,InOrder,PostOrder) are used
        BinaryTreeNode<T>*curr=root;
        while(!(S.empty()&&!curr)){
@@ -306,6 +307,25 @@ public:
            S.pop();
            cout<<curr->data<<" ";
            curr=curr->right;
+       }
+       */
+       stack<BinaryTreeNode<T>*>S;
+       BinaryTreeNode<T>*temp=root;
+       while(temp){
+           S.push(temp);
+           temp=temp->left;
+       }
+       while(!S.empty()){
+           temp=S.top();
+           S.pop();
+           cout<<temp->data<<" ";
+           if(temp->right){
+               temp=temp->right;
+               while(temp){
+                   S.push(temp);
+                   temp=temp->left;
+               }
+           }
        }
        return;
    }
@@ -347,11 +367,65 @@ public:
        return;
    }
 
+   void PostOrderUsing2Stacks(){
+       stack<BinaryTreeNode<T>*>S1,S2;
+       S1.push(root);
+       while(!S1.empty()){
+           BinaryTreeNode<T>*temp=S1.top();
+           S1.pop();
+           S2.push(temp);
+           if(temp->left)S1.push(temp->left);
+           if(temp->right)S1.push(temp->right);
+       }
+   while(!S2.empty()){
+       cout<<S2.top()->data<<" ";
+       S2.pop();
+
+   }
+   return;
+   }
+   void IterativePostOrder(){
+        stack<BinaryTreeNode<T>* >S;
+        S.push(root);
+        BinaryTreeNode<T>*prev=0;
+        while(!S.empty()){
+            BinaryTreeNode<T>*curr=S.top();
+            if(!prev||prev->left==curr||prev->right==curr){
+                if(curr->left)
+                    S.push(curr->left);
+                else if(curr->right)
+                    S.push(curr->right);
+                else{
+                    cout<<curr->data<<" ";
+                    S.pop();
+                }
+            }
+            if(curr->left==prev){
+                if(curr->right)
+                    S.push(curr->right);
+                else{
+                    cout<<curr->data<<" ";
+                    S.pop();
+                }
+            }
+            if(curr->right==prev){
+                cout<<curr->data<<" ";
+                S.pop();
+            }
+            prev=curr;
+        }
+   return;
+   }
+
+
    int diameter1(){
        return diameterOfNode1(root);
    }
    int diameter2(){
-       return diameterOfNode2(root).first;
+       //return diameterOfNode2(root).first;
+       int ans=0;
+       diameterOfNode(root,ans);
+       return ans;
    }
    
    void printNodesWithNoSiblings(){
@@ -771,8 +845,17 @@ private:
     * we won't call height for each node again and again */ 
    
    static int diameterOfNode1(BinaryTreeNode<T>*root){
-        if(!root)return 0;
+        if(!root)return 0;          
         return max(1+heightOfNode(root->left)+heightOfNode(root->right),max(diameterOfNode1(root->left),diameterOfNode1(root->right)));
+   }
+
+   static int diameterOfNode(BinaryTreeNode<T>*root,int&ans){
+       if(!root)            // another approach of finding diameter ,time complexity is  O(n)
+           return -1;
+       int lh=diameterOfNode(root->left,ans);
+       int rh=diameterOfNode(root->right,ans);
+       ans=max(ans,1+lh+rh);
+       return 1+max(lh,rh);
    }
    
    static pair<int,int>diameterOfNode2(BinaryTreeNode<T>*root){

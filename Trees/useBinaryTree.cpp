@@ -62,6 +62,7 @@ int main(){
     //B.buildTreeFromInOrderPreOrder(in,pre,6);
     //B.buildTreeFromInOrderPostOrder(in,post,8);
     //B.mirror();
+   
     B.printTree();
     cout<<endl;
     cout<<"Height of tree: "<<B.height()<<endl;
@@ -81,8 +82,11 @@ int main(){
     cout<<"In Order Using Stack: ";
     B.InOrderUsingStack();
     cout<<endl;
-    cout<<"Post Order Using Stack: ";
-    B.PostOrderUsingStack();
+    cout<<"Post Order Using 2 Stack: ";
+    B.PostOrderUsing2Stacks();
+    cout<<endl;
+    cout<<"Post Order Using  Stack: ";
+    B.IterativePostOrder();
     cout<<endl;
     cout<<"No of leaf Nodes: "<<B.CountLeafNodes()<<endl;
     cout<<"Total no. of Nodes: "<<B.CountNodes()<<endl;
