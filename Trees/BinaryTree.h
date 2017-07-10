@@ -7,6 +7,17 @@
 #include<limits>
 using namespace std;
 
+
+template<typename T>
+struct info{
+T min_value;
+T max_value;
+bool isBST;
+int Size;
+int res;
+
+};
+
 template<typename T>
 class BinaryTree;
 
@@ -457,6 +468,12 @@ public:
     BinaryTreeNode<T>*NextGreater(const T&ele){
        return findNextGreater(root,ele);
     }
+
+    BinaryTreeNode<T>*findNGE(const T&ele){
+
+    return findNGEHelper(root,ele);
+}
+
    
     bool CheckLeavesAtSameLevel(){
         int level=1,K=1;
@@ -559,12 +576,19 @@ public:
    }
 
    bool isBalanced(){
-       return isBalancedHelper(root).first;
+        bool ans=false;
+   isBalancedHelper(root,ans);
+   return ans;
+       //return isBalancedHelper(root).first;
    }
 
    int largestBST(){
        return largestBSTHelper(root).second;
    }
+
+int largestBST2(){
+    return largestBSTHelper2(root).res;
+}
  
    void printSpaces(int spaces){
        for(int i=0;i<spaces;i++){
@@ -628,10 +652,109 @@ public:
 }
 
 
+bool hasSum(int K){
+    vector<int>path;
+
+    if( hasSumHelper(root,K,path)){
+        for(int i=0;i<path.size();i++){
+            cout<<path[i];
+        if(i!=path.size()-1)
+            cout<<"+";
+        }
+        cout<<"="<<K;
+        cout<<endl;
+    return true;
+    }
+return false;
+}
+                                                    /// root to leaf path sum equal to given no
+bool printAllPathsWithGivenSum(int K){
+    vector<int>path;
+    return printAllPathsWithGivenSumHelper(root,K,path);
+}
+
+
+/// create a binary tree using parent array
+void createTreeFromParent(int*parent,int n){
+    vector<BinaryTreeNode<T>*>created(n,NULL);
+    for(int i=0;i<n;i++){
+        createTreeFromParentHelper(parent,i,root,created);
+    }
+    return;
+}
    
            
 private:
+
+
+    static void createTreeFromParentHelper(int*parent,int i,BinaryTreeNode<T>*&root,vector<BinaryTreeNode<T>*>&created){
+        if(created[i]!=NULL)return;
+        created[i]=new BinaryTreeNode<T>(i);
+        if(parent[i]==-1){
+            root=created[i];
+            return;
+        }
+        if(!created[parent[i]])
+            createTreeFromParentHelper(parent,parent[i],root,created);
+        if(created[parent[i]]->left==NULL)
+            created[parent[i]]->left=created[i];
+        else
+            created[parent[i]]->right=created[i];
+        return;
+    }
+
+
+static bool printAllPathsWithGivenSumHelper(BinaryTreeNode<T>*root,int K,vector<int>&path){
+
+    if(!root){
+        if(K==0){
+            cout<<endl;
+            return true;
+        }
+    return false;
+    }
+    path.push_back(root->data);
+
+    if(!root->left&&!root->right){
+        if(root->data==K){
+                int sum=0;
+                for(int i=0;i<path.size();i++){
+                          sum+=path[i];
+                            cout<<path[i];
+                            if(i!=path.size()-1)
+                                    cout<<"+";
+            }
+        cout<<"="<<sum<<endl;
+            return true;
+    }
+
+return false;
+}
+
+bool ans=root->left&&printAllPathsWithGivenSumHelper(root->left,K-root->data,path);
+if(root->left)
+    path.pop_back();
+ans=root->right&&printAllPathsWithGivenSumHelper(root->right,K-root->data,path)||ans;
+if(root->right)
+    path.pop_back();
+return ans;
+
+}
  
+ static bool hasSumHelper(BinaryTreeNode<T>*root,int K,vector<int>&path){
+    if(!root)
+        return K==0;
+       path.push_back(root->data);
+        if(!root->left&&!root->right){
+            if(root->data==K)
+                return true;
+        }
+        if( root->left&&hasSumHelper(root->left,K-root->data,path)||root->right&&hasSumHelper(root->right,K-root->data,path)){
+            return true;
+        }
+        path.pop_back();
+return false;
+}
  static void printRootToLeavesHelper(BinaryTreeNode<T>*root){
     static vector<T>path;
 
@@ -705,6 +828,31 @@ private:
        return P;
    }
 
+  static info<T> largestBSTHelper2(BinaryTreeNode<T>*root){
+        if(!root){
+
+            return {numeric_limits<T>::max(),numeric_limits<T>::min(),true,0,0};
+        }
+        if(!root->left&&!root->right)
+            return {root->data,root->data,true,1,1};
+        info <T>left=largestBSTHelper2(root->left);
+        info <T>right=largestBSTHelper2(root->right);
+        info <T>ans;
+        ans.Size=1+left.Size+right.Size;
+
+        if(left.isBST&&right.isBST&&root->data>left.max_value&&root->data<right.min_value){
+            ans.min_value=min(left.min_value, min(right.min_value, root->data));
+            ans.max_value=max(right.max_value, max(left.max_value, root->data));
+            ans.isBST=true;
+            ans.res=ans.Size;
+       return ans;
+        }
+        ans.res=max(left.res,right.res);
+        ans.isBST=false;
+        return ans;
+    }
+
+
    static pair<bool,int>largestBSTHelper(BinaryTreeNode<T>*root){
        if(isBST(root))return pair<bool,int>(true,CountNodesHelper(root));
         pair<bool,int>Left=largestBSTHelper(root->left);      //O(n^2) time complexity
@@ -719,6 +867,19 @@ private:
        T max_value=numeric_limits<T>::max();
        return isBSTHelper(root,min_value,max_value);
    }
+ static int isBalancedHelper(BinaryTreeNode<T>*root,bool&ans){
+        if(!root){
+            ans=true;
+            return -1;
+        }
+        int Left=isBalancedHelper(root->left,ans);
+        int Right=isBalancedHelper(root->right,ans);
+        ans=ans&&abs(Left-Right)<=1;
+        return 1+max(Left,Right);
+
+    }
+
+
    static pair<bool,int> isBalancedHelper(BinaryTreeNode<T>*root){
        if(!root)return pair<bool,int>(true,-1);
        pair<bool,int>Left=isBalancedHelper(root->left);
@@ -824,6 +985,27 @@ private:
         }
         return CheckLeavesAtSameLevelHelper(root->left,level+1,K)&&CheckLeavesAtSameLevelHelper(root->right,level+1,K);
     }
+
+    static BinaryTreeNode<T>*findNGEHelper(BinaryTreeNode<T>*root,const T&ele){
+            if(!root)return root;
+            BinaryTreeNode<T>*left=findNGEHelper(root->left,ele);
+            BinaryTreeNode<T>*right=findNGEHelper(root->right,ele);
+            if(root->data>ele&&!left&&!right)
+                return root;
+            if(root->data>ele&&left&&!right)
+                return root->data>left->data?left:root;
+            if(root->data>ele&&!left&&right)
+                return root->data>right->data?right:root;
+            if(root->data>ele&&left&&right)
+                return  left->data<right->data?left->data<root->data?left:root:right->data<root->data?right:root;
+            if(left&&!right)return left;
+            if(right&&!left)return right;
+            if(left&&right)
+                return left->data<right->data?left:right;
+            return NULL;
+    }
+
+
 
     static bool isThereAnyElement(BinaryTreeNode<T>*root,const T&value,const T&ele){
        if(!root)return false;
