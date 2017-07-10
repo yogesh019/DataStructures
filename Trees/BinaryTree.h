@@ -400,7 +400,7 @@ public:
                     S.pop();
                 }
             }
-            if(curr->left==prev){
+            else if(curr->left==prev){
                 if(curr->right)
                     S.push(curr->right);
                 else{
@@ -408,7 +408,7 @@ public:
                     S.pop();
                 }
             }
-            if(curr->right==prev){
+            else if(curr->right==prev){
                 cout<<curr->data<<" ";
                 S.pop();
             }
@@ -620,10 +620,40 @@ public:
   }
 
 
+  void printRootToLeaves(){			//print all paths from root to leafs
+    	if(!root)
+        	return;
+    	printRootToLeavesHelper(root);
+    	return;
+}
+
+
    
            
 private:
-   
+ 
+ static void printRootToLeavesHelper(BinaryTreeNode<T>*root){
+    static vector<T>path;
+
+    path.push_back(root->data);
+    if(!root->left&&!root->right){
+        for(typename vector<T>::iterator it=path.begin();it!=path.end();it++){
+            cout<<(*it)<<" ";
+        }
+        cout<<endl;
+        return;
+    }
+    if(root->left){
+        printRootToLeavesHelper(root->left);
+    path.pop_back();
+    }
+    if(root->right){
+    printRootToLeavesHelper(root->right);
+    path.pop_back();
+    }
+    return;
+}  
+
     static pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>SecondLargestHelper(BinaryTreeNode<T>*root){
        if(!root)
           return pair<BinaryTreeNode<T>*,BinaryTreeNode<T>*>(NULL,NULL);
