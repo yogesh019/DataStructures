@@ -45,10 +45,11 @@ bool NQueen(char board[][100],int N,int col){
         printSolution(board,N);
         return true;
     }
+   bool res=false;
     for(int i=0;i<N;i++){
         if(isSafe(board,N,i,col)){
             board[i][col]='Q';
-            NQueen(board,N,col+1);
+            res=NQueen(board,N,col+1)||res;
             /*
             if(NQueen(board,N,col+1)){
                 return true;
@@ -57,7 +58,7 @@ bool NQueen(char board[][100],int N,int col){
             board[i][col]=0;
         }
     }
-    return false;
+    return res;
 }
 int main(){
     char board[100][100]={0};
