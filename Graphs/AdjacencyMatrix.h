@@ -328,8 +328,38 @@ return;
         }
     }
 
+    bool checkCycle(){
+        vector<bool>visited(Matrix.size(),false),recStack(Matrix.size(),false);
+        for(int i=0;i<visited.size();i++){
+            if(!visited[i]){
+                visited[i]=true;
+                if(checkCycleHelper(i,visited,recStack))
+                    return true;
+            }
+        }
+    return false;
+    }
 
 private:
+    
+    
+    bool checkCycleHelper(int src,vector<bool>&visited,vector<bool>&recStack){
+        recStack[src]=true;
+        for(int i=0;i<Matrix.size();i++){
+            if(Matrix[src][i]&&recStack[i])
+                return true;
+        }
+
+        for(int i=0;i<Matrix.size();i++){
+            if(Matrix[src][i]&&!visited[i]){
+                    visited[i]=true;
+                    if(checkCycleHelper(i,visited,recStack))
+                        return true;
+            }
+        }
+        recStack[src]=false;
+    return false;
+    }
     
      void fillStack(int src,vector<bool>&visited,stack<int>&S){
         for(int i=0;i<Matrix.size();i++){
