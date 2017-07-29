@@ -176,7 +176,9 @@ Node*deleteKthNodeRecursive(Node*&head,int K){
     if(K>=length(head))return head;
     if(!K){
         Node*temp=head;
+        
         head=head->next;
+        delete temp;
         return head;
     }
     head->next=deleteKthNodeRecursive(head->next,K-1);
