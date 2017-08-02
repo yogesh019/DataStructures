@@ -367,11 +367,7 @@ void InsertInSortedLinklist(Node*&head,int value){
         head=newNode;
         return;
     }
-    if(head->data<value&&head->next&&head->next->data>=value){
-        newNode->next=head->next;
-        head->next=newNode;
-        return;
-    }
+
     InsertInSortedLinklist(head->next,value);
     return;
 }
