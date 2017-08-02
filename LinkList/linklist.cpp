@@ -506,6 +506,39 @@ void removeDuplicatesUnsorted(Node*head){
             
 /****************************************************************************************************************************************/
 
+void removeAllOccurences(Node*&head){
+    if(!head||!head->next)return;
+    Node*curr=head,*prev=0;         // remove all occurences of a duplicate element in linklist
+    int last_removed=-8909;
+    while(curr){
+        if(curr->next&&curr->data==curr->next->data||curr->data==last_removed){
+
+        if(prev)prev->next=0;
+            Node*temp=curr;
+            last_removed=curr->data;
+            curr=curr->next;
+            delete temp;
+
+
+            continue;
+        }
+
+
+        if(!prev){
+            head=curr;
+        }else{
+            prev->next=curr;
+        }
+        prev=curr;
+        curr=curr->next;
+    }
+if(!prev)
+    head=0;
+return;
+}
+
+/*************************************************************************************************************************************/
+
 Node*merge2sortedLinklist(Node*head1,Node*head2){
     /*
     Node*head3=0;
